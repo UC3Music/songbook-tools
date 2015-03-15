@@ -31,3 +31,6 @@ if __name__ == '__main__':
 
     print("----------------------")
 
+    outFd = open("out.tex", 'w')
+    outFd.write(s)
+
