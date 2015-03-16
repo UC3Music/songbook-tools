@@ -35,12 +35,18 @@ if __name__ == '__main__':
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             name, extension = os.path.splitext(filename)
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
-            rep += "\\begin{verbatim}\n"
+            rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
-            rep += "\\end{verbatim}\n"
+            rep += "\\end{alltt}\n"
             rep += "\n"
     #sys.stdout.write(rep)  #-- Screen output for debugging.
+
+    rep = rep.replace("(","\\textbf{(")
+    rep = rep.replace(")",")}")
+
+    rep = rep.replace("[","\\textit{[")
+    rep = rep.replace("]","]}")
 
     s = s.replace("genSongbook",rep)
 
