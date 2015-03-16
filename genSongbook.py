@@ -40,8 +40,9 @@ if __name__ == '__main__':
             rep += song.read()
             rep += "\\end{verbatim}\n"
             rep += "\n"
+    #sys.stdout.write(rep)  #-- Screen output for debugging.
 
-    s.replace("genSongbook",rep)
+    s = s.replace("genSongbook",rep)
 
     outFd = open("out.tex", 'w')
     outFd.write(s)
