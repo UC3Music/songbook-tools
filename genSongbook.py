@@ -39,6 +39,7 @@ if __name__ == '__main__':
         print("Will use avoiding-manifest file: " + manifestFile)
         manifestFileFd = open(manifestFile, 'r')
 	manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
+        manifestFileFd.close()
 
     print("----------------------")
 
@@ -73,4 +74,4 @@ if __name__ == '__main__':
 
     outFd = open("out.tex", 'w')
     outFd.write(s)
-
+    outFd.close()
