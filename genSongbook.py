@@ -4,6 +4,8 @@ import sys, os
 
 import mmap  # Thanks Steven @ http://stackoverflow.com/questions/4940032/search-for-string-in-txt-file-python
 
+import subprocess
+
 import readline
 
 readline.set_completer_delims(' \t\n;')
@@ -76,3 +78,8 @@ if __name__ == '__main__':
     outFd = open("out.tex", 'w')
     outFd.write(s)
     outFd.close()
+
+    #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
+    #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
+    pdftex_process = subprocess.call(['pdflatex', 'out.tex'])
+    pdftex_process = subprocess.call(['pdflatex', 'out.tex'])
