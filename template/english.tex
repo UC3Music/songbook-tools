@@ -7,8 +7,11 @@
 \usepackage{alltt}  %--replaces verbatim
 \renewcommand{\ttdefault}{txtt}  %--replaces verbatim
 
-\usepackage[allintoone,makeindex]{splitidx}
-\newindex[Index of songs]{song}
+% Thanks http://tex.blogoverflow.com/2012/09/dont-forget-to-run-makeindex/
+% Despite http://tex.stackexchange.com/questions/193460/unable-to-print-index-at-the-beginning-of-the-document claims,
+% \usepackage[noautomatic,makeindex]{imakeidx} does not help putting index at beginning.
+\usepackage[makeindex]{imakeidx}
+\makeindex[name=song, title=Index of Songs, intoc]
 
 % next if more than 100 chapters.
 \usepackage{titletoc}
@@ -50,8 +53,6 @@
 \maketitle
 \cleardoublepage
 \tableofcontents
-\printindex
-
 \newpage  % book format
 
 %-- To force blank page: 
@@ -60,6 +61,8 @@
 %\mbox{}
 
 genSongbook
+
+\printindex[song]
 
 \end{document}
 

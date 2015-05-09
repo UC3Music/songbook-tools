@@ -60,7 +60,7 @@ if __name__ == '__main__':
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
 	    songName = name.split(" - ")[-1]
-            rep += "\\sindex{{song}}{" + songName + "}\n"
+            rep += "\\index{{song}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
@@ -86,6 +86,4 @@ if __name__ == '__main__':
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
     pdftex_process = subprocess.call(['pdflatex', 'out'])
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
-    pdftex_process = subprocess.call(['makeindex', 'out'])
     pdftex_process = subprocess.call(['pdflatex', 'out'])
