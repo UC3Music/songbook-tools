@@ -5,10 +5,15 @@
 \usepackage[spanish]{babel}  %-- contents a español
 \usepackage{graphics}
 \usepackage[dvips]{graphicx}
-\usepackage{hyperref}
 %\usepackage{verbatim}
 \usepackage{alltt}  %--replaces verbatim
 \renewcommand{\ttdefault}{txtt}  %--replaces verbatim
+
+% Thanks http://tex.blogoverflow.com/2012/09/dont-forget-to-run-makeindex/
+% Despite http://tex.stackexchange.com/questions/193460/unable-to-print-index-at-the-beginning-of-the-document claims,
+% \usepackage[noautomatic,makeindex]{imakeidx} does not help putting index at beginning.
+\usepackage[makeindex]{imakeidx}
+\makeindex[name=song, title=Index of Songs, intoc]
 
 % next if more than 100 chapters.
 \usepackage{titletoc}
@@ -17,6 +22,8 @@
 {\contentslabel{2em}}
 {}
 {\titlerule*[0.3pc]{.}\contentspage}
+
+\usepackage{hyperref}
 
 \hypersetup{
     pdftitle={Cancionero (English)},
@@ -56,6 +63,8 @@
 %\mbox{}
 
 genSongbook
+
+\printindex[song]
 
 \end{document}
 
