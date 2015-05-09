@@ -60,6 +60,7 @@ if __name__ == '__main__':
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
+	    song.close()
             rep += "\\end{alltt}\n"
             rep += "\n"
     #sys.stdout.write(rep)  #-- Screen output for debugging.
