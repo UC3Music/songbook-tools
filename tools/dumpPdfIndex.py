@@ -18,14 +18,15 @@ def query(question, default):
     return choice
 
 # Thanks: Oz123 @ http://stackoverflow.com/questions/7131906/how-to-extract-pdf-index-table-of-contents-with-poppler
-def walk_index(iterp, doc):
+def walk_index(manifestFd,iterp, doc):
     while iterp.next():
       link=iterp.get_action()
       s = doc.find_dest(link.dest.named_dest)
       print link.title #,' ', doc.get_page(s.page_num).get_label()
+      manifestFd.write(link.title + '\n')
       child = iterp.get_child()
       if child:
-        walk_index(child, doc)
+        walk_index(manifestFd,child, doc)
 
 if __name__ == '__main__':
     # Query path_to_pdf string
@@ -34,12 +35,18 @@ if __name__ == '__main__':
 	path_to_pdf = os.path.abspath('.') + "/" + path_to_pdf
     print("Will extract manifest from file: " + path_to_pdf)
 
+    # Query output string
+    manifest = query("Please specify the manifest output file","manifest.txt")
+    print("Will extract manifest to file: " + manifest)
+    manifestFd = open(manifest, 'a')
+
     uri = ("file:///"+path_to_pdf)
     doc = poppler.document_new_from_file(uri, None)
 
     iterp = poppler.IndexIter(doc)
     link = iterp.get_action()
     s = doc.find_dest(link.dest.named_dest)
-    #print link.title #,' ', doc.get_page(s.page_num).get_label()
-    walk_index(iterp, doc)
-
+    print link.title #,' ', doc.get_page(s.page_num).get_label()
+    manifestFd.write(link.title + '\n')
+    walk_index(manifestFd,iterp, doc)
+    manifestFd.close()
