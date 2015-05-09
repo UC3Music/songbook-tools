@@ -3,10 +3,12 @@
 \usepackage[margin=0.7in]{geometry}
 \usepackage{graphics}
 \usepackage[dvips]{graphicx}
-\usepackage{hyperref}
 %\usepackage{verbatim}
 \usepackage{alltt}  %--replaces verbatim
 \renewcommand{\ttdefault}{txtt}  %--replaces verbatim
+
+\usepackage[allintoone,makeindex]{splitidx}
+\newindex[Index of songs]{song}
 
 % next if more than 100 chapters.
 \usepackage{titletoc}
@@ -15,6 +17,8 @@
 {\contentslabel{2em}}
 {}
 {\titlerule*[0.3pc]{.}\contentspage}
+
+\usepackage{hyperref}
 
 \hypersetup{
     pdftitle={Songbook (English)},
@@ -46,6 +50,8 @@
 \maketitle
 \cleardoublepage
 \tableofcontents
+\printindex
+
 \newpage  % book format
 
 %-- To force blank page: 
