@@ -23,7 +23,6 @@ def walk_index(iterp, doc):
       link=iterp.get_action()
       s = doc.find_dest(link.dest.named_dest)
       print link.title #,' ', doc.get_page(s.page_num).get_label()
-      print link.title
       child = iterp.get_child()
       if child:
         walk_index(child, doc)
@@ -41,6 +40,6 @@ if __name__ == '__main__':
     iterp = poppler.IndexIter(doc)
     link = iterp.get_action()
     s = doc.find_dest(link.dest.named_dest)
-    print link.title #,' ', doc.get_page(s.page_num).get_label()
+    #print link.title #,' ', doc.get_page(s.page_num).get_label()
     walk_index(iterp, doc)
 
