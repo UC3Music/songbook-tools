@@ -2,6 +2,8 @@
 
 import sys, os
 
+import mmap  # Thanks Steven @ http://stackoverflow.com/questions/4940032/search-for-string-in-txt-file-python
+
 import readline
 
 readline.set_completer_delims(' \t\n;')
@@ -29,6 +31,15 @@ if __name__ == '__main__':
     templateFile = query("Please specify the path of the template file","template/english.tex")
     print("Will use template file: " + templateFile)
 
+    # Query optional avoiding-manifest file path string
+    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file","")
+    if manifestFile == "":
+	print("Not using avoiding-manifest file.")
+    else:
+        print("Will use avoiding-manifest file: " + manifestFile)
+        manifestFileFd = open(manifestFile, 'r')
+	manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
+
     print("----------------------")
 
     templateFileFd = open(templateFile, 'r')
@@ -38,8 +49,12 @@ if __name__ == '__main__':
     rep = ""
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
-            rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             name, extension = os.path.splitext(filename)
+	    if manifestFile != "":
+		if manifestMmap.find(name) != -1:
+		    print "Skipping:", name
+		    continue
+            rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
