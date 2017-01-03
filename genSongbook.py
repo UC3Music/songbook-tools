@@ -36,11 +36,11 @@ if __name__ == '__main__':
     # Query optional avoiding-manifest file path string
     manifestFile = query("(optional) Please specify the path of a avoiding-manifest file","")
     if manifestFile == "":
-	print("Not using avoiding-manifest file.")
+        print("Not using avoiding-manifest file.")
     else:
         print("Will use avoiding-manifest file: " + manifestFile)
         manifestFileFd = open(manifestFile, 'r')
-	manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
+        manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
         manifestFileFd.close()
 
     print("----------------------")
@@ -53,18 +53,18 @@ if __name__ == '__main__':
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
             name, extension = os.path.splitext(filename)
-	    if manifestFile != "":
-		if manifestMmap.find(name) != -1:
-		    print "Skipping:", name
-		    continue
+            if manifestFile != "":
+                if manifestMmap.find(name) != -1:
+                    print "Skipping:", name
+                    continue
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
-	    songName = name.split(" - ")[-1]
+            songName = name.split(" - ")[-1]
             rep += "\\index{{song}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
-	    song.close()
+            song.close()
             rep += "\\end{alltt}\n"
             rep += "\n"
     #sys.stdout.write(rep)  #-- Screen output for debugging.
@@ -87,3 +87,4 @@ if __name__ == '__main__':
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
     pdftex_process = subprocess.call(['pdflatex', 'out'])
     pdftex_process = subprocess.call(['pdflatex', 'out'])
+
