@@ -87,3 +87,4 @@ if __name__ == '__main__':
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
     pdftex_process = subprocess.call(['pdflatex', 'out'])
     pdftex_process = subprocess.call(['pdflatex', 'out'])
+
