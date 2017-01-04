@@ -50,6 +50,6 @@ if __name__ == '__main__':
             name, extension = os.path.splitext(filename)
             song = open( os.path.join(dirname, filename) )
             print name
-            #rep += song.read()
+            contents = song.read()
             song.close()
 
