@@ -54,9 +54,8 @@ if __name__ == '__main__':
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
-            contentsIn = songIn.read()
-            contentsOut = contentsIn
-            songOut.write(contentsOut)
+            contents = songIn.read()
+            songOut.write(contents)
             songOut.close()
             songIn.close()
 
