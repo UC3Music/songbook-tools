@@ -37,20 +37,9 @@ def transpose(matchobj):
     if matchobj.group(0).find("(Chords") != -1:
         return matchobj.group(0)
     #actual process:
-    myChords =  ChordProgression(matchobj.group(0).replace("(","").replace(")","").split())
-    myChords.transpose(halfTones)
-    myString = "("
-    if len(myChords)==1:
-        myString += myChords[0].chord
-        myString += ")"
-        return myString
-    for myChord in myChords[:-1]:
-        myString += myChord.chord
-        myString += "  "
-    else:
-        myString += myChord.chord
-    myString += ")"
-    return myString
+    splitByDoubleSpace = matchobj.group(0).replace("(","").replace(")","").split("  ")
+    print splitByDoubleSpace
+    return "(null)"
 
 
 if __name__ == '__main__':
