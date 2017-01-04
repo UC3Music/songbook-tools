@@ -52,8 +52,11 @@ if __name__ == '__main__':
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
             name, extension = os.path.splitext(filename)
-            song = open( os.path.join(dirname, filename) )
-            print name
-            contents = song.read()
-            song.close()
+            songIn = open( os.path.join(dirname, filename) )
+            songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
+            contentsIn = songIn.read()
+            contentsOut = contentsIn
+            songOut.write(contentsOut)
+            songOut.close()
+            songIn.close()
 
