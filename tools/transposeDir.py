@@ -15,6 +15,7 @@ readline.parse_and_bind("set match-hidden-files off")
 import re
 
 from pychord import Chord
+from pychord import ChordProgression
 
 halfTones = 0
 
@@ -25,7 +26,6 @@ def query(question, default):
         return default
     return choice
 
-from pychord import ChordProgression
 def transpose(matchobj):
     #debug:
     print matchobj.group(0)
