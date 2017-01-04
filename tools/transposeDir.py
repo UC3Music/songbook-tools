@@ -12,12 +12,46 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
+import re
+
+from pychord import ChordProgression
+
+halfTones = 0
+
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
         return default
     return choice
+
+from pychord import ChordProgression
+def transpose(matchobj):
+    #debug:
+    print matchobj.group(0)
+    #exceptions:
+    if matchobj.group(0) == "(riff)":
+        return matchobj.group(0)
+    if matchobj.group(0).find("(chords") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(Chords") != -1:
+        return matchobj.group(0)
+    #actual process:
+    myChords =  ChordProgression(matchobj.group(0).replace("(","").replace(")","").split())
+    myChords.transpose(halfTones)
+    myString = "("
+    if len(myChords)==1:
+        myString += myChords[0].chord
+        myString += ")"
+        return myString
+    for myChord in myChords[:-1]:
+        myString += myChord.chord
+        myString += "  "
+    else:
+        myString += myChord.chord
+    myString += ")"
+    return myString
+
 
 if __name__ == '__main__':
 
@@ -55,6 +89,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
             contents = songIn.read()
+            contents = re.sub("\([^)]*\)", transpose, contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
