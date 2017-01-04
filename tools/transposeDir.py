@@ -14,7 +14,7 @@ readline.parse_and_bind("set match-hidden-files off")
 
 import re
 
-from pychord import ChordProgression
+from pychord import Chord
 
 halfTones = 0
 
@@ -38,7 +38,9 @@ def transpose(matchobj):
         return matchobj.group(0)
     #actual process:
     splitByDoubleSpace = matchobj.group(0).replace("(","").replace(")","").split("  ")
-    print splitByDoubleSpace
+    for chords in splitByDoubleSpace:
+        chordList = chords.split("-")
+        print chordList
     return "(null)"
 
 
