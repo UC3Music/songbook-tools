@@ -26,9 +26,26 @@ def query(question, default):
         return default
     return choice
 
+def process( stringToProcess, processed ):
+    #print 'String to process "' + stringToProcess + '".'
+    afterSplit = re.split("  |-", stringToProcess, 1)  # 3rd parameter is maxsplit
+    #print afterSplit
+    chord = Chord(afterSplit[0])
+    chord.transpose( halfTones )
+    processed += chord.chord
+    #print '- Extracted "' + chord.chord + '" chord.'
+    if len(afterSplit) == 1:
+        return processed
+    delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
+    #print '- Delimiter was "' + delimiterWas + '".'
+    processed += delimiterWas
+    #print '- Processed now "' + processed + '".'
+    #print '- Still must process "' + afterSplit[1] + '".'
+    return process( afterSplit[1], processed )
+
 def transpose(matchobj):
-    #debug:
-    print matchobj.group(0)
+    # debug
+    print "- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0) == "(riff)":
         return matchobj.group(0)
@@ -37,11 +54,12 @@ def transpose(matchobj):
     if matchobj.group(0).find("(Chords") != -1:
         return matchobj.group(0)
     #actual process:
-    splitByDoubleSpace = matchobj.group(0).replace("(","").replace(")","").split("  ")
-    for chords in splitByDoubleSpace:
-        chordList = chords.split("-")
-        print chordList
-    return "(null)"
+    betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
+    #print betweenParenthesis
+    final = process( betweenParenthesis, "" )
+    # debug
+    print "+ " + "(" + final + ")"
+    return "(" + final + ")"
 
 
 if __name__ == '__main__':
@@ -76,6 +94,8 @@ if __name__ == '__main__':
 
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
+            #debug
+            print filename
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
