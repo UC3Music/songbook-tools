@@ -57,7 +57,7 @@ def transpose(matchobj):
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
     print betweenParenthesis
     final = process( betweenParenthesis, "" )
-    return final
+    return "(" + final + ")"
 
 
 if __name__ == '__main__':
