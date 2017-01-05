@@ -37,10 +37,8 @@ def transpose(matchobj):
     if matchobj.group(0).find("(Chords") != -1:
         return matchobj.group(0)
     #actual process:
-    splitByDoubleSpace = matchobj.group(0).replace("(","").replace(")","").split("  ")
-    for chords in splitByDoubleSpace:
-        chordList = chords.split("-")
-        print chordList
+    betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
+    print betweenParenthesis
     return "(null)"
 
 
