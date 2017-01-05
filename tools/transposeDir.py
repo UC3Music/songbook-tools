@@ -26,6 +26,23 @@ def query(question, default):
         return default
     return choice
 
+def process( stringToProcess, processed ):
+    print 'String to process "' + stringToProcess + '".'
+    afterSplit = re.split("  |-", stringToProcess, 1)  # 3rd parameter is maxsplit
+    if len(afterSplit) == 1:
+        return processed
+    print afterSplit
+    chord = Chord(afterSplit[0])
+    chord.transpose( halfTones )
+    print '- Extracted "' + chord.chord + '" chord.'
+    delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
+    print '- Delimiter was "' + delimiterWas + '".'
+    processed += chord.chord
+    processed += delimiterWas
+    print '- Processed now "' + processed + '".'
+    print '- Still must process "' + afterSplit[1] + '".'
+    return process( afterSplit[1], processed )
+
 def transpose(matchobj):
     #debug:
     print matchobj.group(0)
@@ -39,7 +56,8 @@ def transpose(matchobj):
     #actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
     print betweenParenthesis
-    return "(null)"
+    final = process( betweenParenthesis, "" )
+    return final
 
 
 if __name__ == '__main__':
