@@ -94,6 +94,8 @@ if __name__ == '__main__':
 
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
+            #debug
+            print filename
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
