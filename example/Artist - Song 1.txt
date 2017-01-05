@@ -4,7 +4,7 @@ consectetur adipiscing elit,
 sed do eiusmod tempor incididunt
 ut labore et dolore magna aliqua.
 
-(C  Dm  Em  F)  (G  B-C  Am  C-Am)
+(C  Dm  Em  F)  (G  Am)
 Ut enim ad minim veniam,
 quis nostrud exercitation ullamco
 laboris nisi ut aliquip ex ea
