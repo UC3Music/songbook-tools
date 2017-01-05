@@ -27,25 +27,25 @@ def query(question, default):
     return choice
 
 def process( stringToProcess, processed ):
-    print 'String to process "' + stringToProcess + '".'
+    #print 'String to process "' + stringToProcess + '".'
     afterSplit = re.split("  |-", stringToProcess, 1)  # 3rd parameter is maxsplit
-    print afterSplit
+    #print afterSplit
     chord = Chord(afterSplit[0])
     chord.transpose( halfTones )
     processed += chord.chord
-    print '- Extracted "' + chord.chord + '" chord.'
+    #print '- Extracted "' + chord.chord + '" chord.'
     if len(afterSplit) == 1:
         return processed
     delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    print '- Delimiter was "' + delimiterWas + '".'
+    #print '- Delimiter was "' + delimiterWas + '".'
     processed += delimiterWas
-    print '- Processed now "' + processed + '".'
-    print '- Still must process "' + afterSplit[1] + '".'
+    #print '- Processed now "' + processed + '".'
+    #print '- Still must process "' + afterSplit[1] + '".'
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
-    #debug:
-    print matchobj.group(0)
+    # debug
+    print "- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0) == "(riff)":
         return matchobj.group(0)
@@ -55,8 +55,10 @@ def transpose(matchobj):
         return matchobj.group(0)
     #actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-    print betweenParenthesis
+    #print betweenParenthesis
     final = process( betweenParenthesis, "" )
+    # debug
+    print "+ " + "(" + final + ")"
     return "(" + final + ")"
 
 
