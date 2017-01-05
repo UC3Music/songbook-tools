@@ -29,15 +29,15 @@ def query(question, default):
 def process( stringToProcess, processed ):
     print 'String to process "' + stringToProcess + '".'
     afterSplit = re.split("  |-", stringToProcess, 1)  # 3rd parameter is maxsplit
-    if len(afterSplit) == 1:
-        return processed
     print afterSplit
     chord = Chord(afterSplit[0])
     chord.transpose( halfTones )
+    processed += chord.chord
     print '- Extracted "' + chord.chord + '" chord.'
+    if len(afterSplit) == 1:
+        return processed
     delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
     print '- Delimiter was "' + delimiterWas + '".'
-    processed += chord.chord
     processed += delimiterWas
     print '- Processed now "' + processed + '".'
     print '- Still must process "' + afterSplit[1] + '".'
