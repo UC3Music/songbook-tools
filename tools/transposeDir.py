@@ -28,7 +28,7 @@ def query(question, default):
 
 def process( stringToProcess, processed ):
     #print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split("  |-|!|\.\.\.|\.\.", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
+    afterSplit = re.split("  |-|!|\.\.\.|\.\.|high", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
     #print '* Split by delimiters "' + str(afterSplit) + '".'
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
