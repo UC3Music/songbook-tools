@@ -64,7 +64,7 @@ def transpose(matchobj):
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
-    if matchobj.group(0).find("all high") != -1:
+    if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("(mute)") != -1:
         return matchobj.group(0)
