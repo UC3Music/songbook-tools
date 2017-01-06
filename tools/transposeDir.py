@@ -28,20 +28,21 @@ def query(question, default):
 
 def process( stringToProcess, processed ):
     print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split(" |-", stringToProcess, 1)  # 3rd parameter is maxsplit
+    afterSplit = re.split(" |-|!|\.", stringToProcess, 1)  # 3rd parameter is maxsplit
     print afterSplit
-    chord = Chord(afterSplit[0])
-    print '- Extracted "' + chord.chord + '" chord.'
-    chord.transpose( halfTones )
-    print '- Transposed to "' + chord.chord + '" chord.'
-    processed += chord.chord
+    if len(afterSplit[0]) != 0:
+        chord = Chord(afterSplit[0])
+        print '* Extracted "' + chord.chord + '" chord.'
+        chord.transpose( halfTones )
+        print '* Transposed to "' + chord.chord + '" chord.'
+        processed += chord.chord
     if len(afterSplit) == 1:
         return processed
     delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    print '- Delimiter was "' + delimiterWas + '".'
+    print '* Delimiter was "' + delimiterWas + '".'
     processed += delimiterWas
-    print '- Processed now "' + processed + '".'
-    print '- Still must process "' + afterSplit[1] + '".'
+    print '* Processed now "' + processed + '".'
+    print '* Still must process "' + afterSplit[1] + '".'
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
