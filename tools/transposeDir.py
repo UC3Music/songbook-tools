@@ -62,6 +62,12 @@ def transpose(matchobj):
         return matchobj.group(0)
     if matchobj.group(0).find("(Chords") != -1:
         return matchobj.group(0)
+    if matchobj.group(0).find("bpm") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("all high") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(mute)") != -1:
+        return matchobj.group(0)
     #actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
     #print betweenParenthesis
