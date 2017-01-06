@@ -36,6 +36,7 @@ def process( stringToProcess, processed ):
         chord.transpose( halfTones )
         print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
+        print '* Processed now "' + processed + '".'
     if len(afterSplit) == 1:
         return processed
     delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
