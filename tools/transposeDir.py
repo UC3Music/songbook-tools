@@ -27,25 +27,29 @@ def query(question, default):
     return choice
 
 def process( stringToProcess, processed ):
-    print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split(" |-|!|\.", stringToProcess, 1)  # 3rd parameter is maxsplit
-    print '* Split by delimiters "' + str(afterSplit) + '".'
+    #print 'String to process "' + stringToProcess + '".'
+    afterSplit = re.split("  |-|!|\.\.\.|\.\.", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
+    #print '* Split by delimiters "' + str(afterSplit) + '".'
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
-        print '* Extracted "' + chord.chord + '" chord.'
+        #print '* Extracted "' + chord.chord + '" chord.'
         chord.transpose( halfTones )
-        print '* Transposed to "' + chord.chord + '" chord.'
+        #print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
-        print '* Processed after chord "' + processed + '".'
-    else:
-        print '* No chord to extract.'
+        #print '* Processed after chord "' + processed + '".'
+    #else:
+        #print '* No chord to extract.'
     if len(afterSplit) == 1:
         return processed
-    delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    print '* Delimiter was "' + delimiterWas + '".'
+    delimiterWas = ''
+    if len(afterSplit[1]) == 0:
+        delimiterWas = stringToProcess[len(afterSplit[0]):]
+    else:
+        delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
+    #print '* Delimiter was "' + delimiterWas + '".'
     processed += delimiterWas
-    print '* Processed after delimiter "' + processed + '".'
-    print '* Still must process "' + afterSplit[1] + '".'
+    #print '* Processed after delimiter "' + processed + '".'
+    #print '* Still must process "' + afterSplit[1] + '".'
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
