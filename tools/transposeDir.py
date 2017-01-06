@@ -29,7 +29,7 @@ def query(question, default):
 def process( stringToProcess, processed ):
     print 'String to process "' + stringToProcess + '".'
     afterSplit = re.split(" |-|!|\.", stringToProcess, 1)  # 3rd parameter is maxsplit
-    print afterSplit
+    print '* Split by delimiters "' + str(afterSplit) + '".'
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         print '* Extracted "' + chord.chord + '" chord.'
