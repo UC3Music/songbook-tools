@@ -85,7 +85,7 @@ if __name__ == '__main__':
     transposedSongDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/lyrics/transposed_english")
 
     if os.path.isdir(transposedSongDirectory):
-        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "yes" without quotes)','yes')
+        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "yes" without quotes)','no')
         if yesNo != "yes":
             print "Ok, bye!"
             quit()
