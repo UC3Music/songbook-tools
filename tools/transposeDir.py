@@ -28,24 +28,33 @@ def query(question, default):
 
 def process( stringToProcess, processed ):
     #print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split("  |-", stringToProcess, 1)  # 3rd parameter is maxsplit
-    #print afterSplit
-    chord = Chord(afterSplit[0])
-    chord.transpose( halfTones )
-    processed += chord.chord
-    #print '- Extracted "' + chord.chord + '" chord.'
+    afterSplit = re.split("  |-|!|\.\.\.|\.\.", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
+    #print '* Split by delimiters "' + str(afterSplit) + '".'
+    if len(afterSplit[0]) != 0:
+        chord = Chord(afterSplit[0])
+        #print '* Extracted "' + chord.chord + '" chord.'
+        chord.transpose( halfTones )
+        #print '* Transposed to "' + chord.chord + '" chord.'
+        processed += chord.chord
+        #print '* Processed after chord "' + processed + '".'
+    #else:
+        #print '* No chord to extract.'
     if len(afterSplit) == 1:
         return processed
-    delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    #print '- Delimiter was "' + delimiterWas + '".'
+    delimiterWas = ''
+    if len(afterSplit[1]) == 0:
+        delimiterWas = stringToProcess[len(afterSplit[0]):]
+    else:
+        delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
+    #print '* Delimiter was "' + delimiterWas + '".'
     processed += delimiterWas
-    #print '- Processed now "' + processed + '".'
-    #print '- Still must process "' + afterSplit[1] + '".'
+    #print '* Processed after delimiter "' + processed + '".'
+    #print '* Still must process "' + afterSplit[1] + '".'
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
     # debug
-    print "- " + matchobj.group(0)
+    print "--- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0) == "(riff)":
         return matchobj.group(0)
@@ -58,7 +67,7 @@ def transpose(matchobj):
     #print betweenParenthesis
     final = process( betweenParenthesis, "" )
     # debug
-    print "+ " + "(" + final + ")"
+    print "+++ " + "(" + final + ")"
     return "(" + final + ")"
 
 
@@ -76,8 +85,8 @@ if __name__ == '__main__':
     transposedSongDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/lyrics/transposed_english")
 
     if os.path.isdir(transposedSongDirectory):
-        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "yes" without quotes)','no')
-        if yesNo != "yes":
+        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','no')
+        if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
         else:
