@@ -47,7 +47,7 @@ def process( stringToProcess, processed ):
 
 def transpose(matchobj):
     # debug
-    print "- " + matchobj.group(0)
+    print "--- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0) == "(riff)":
         return matchobj.group(0)
@@ -60,7 +60,7 @@ def transpose(matchobj):
     #print betweenParenthesis
     final = process( betweenParenthesis, "" )
     # debug
-    print "+ " + "(" + final + ")"
+    print "+++ " + "(" + final + ")"
     return "(" + final + ")"
 
 
