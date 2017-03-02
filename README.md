@@ -7,6 +7,5 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
 
 - **transpose-song-directory.py** - Transpose all the chords of the minimally markuped songs found in a given directory.
 
-
 - **extra-tools/songbook-dump-index.py** - Dump the index of a PDF songbook to blacklist and avoid duplicates.
 
