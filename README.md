@@ -1,4 +1,4 @@
-genSongbook
-===========
+songbook-tools
+==============
 
-A script to create a LaTeX songbook given a directory of songs in txt format.
+Tools for minimally markuped songs, like book generation and chord transposition.
