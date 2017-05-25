@@ -33,7 +33,7 @@ def process( stringToProcess, processed ):
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         #print '* Extracted "' + chord.chord + '" chord.'
-        chord.transpose( halfTones )
+        chord.transpose( halfTones, "C#" )
         #print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
         #print '* Processed after chord "' + processed + '".'
