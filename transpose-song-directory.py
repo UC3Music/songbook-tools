@@ -33,7 +33,7 @@ def process( stringToProcess, processed ):
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         #print '* Extracted "' + chord.chord + '" chord.'
-        chord.transpose( halfTones )
+        chord.transpose( halfTones, "C#" )
         #print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
         #print '* Processed after chord "' + processed + '".'
@@ -82,11 +82,11 @@ if __name__ == '__main__':
     print("-----------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/lyrics/english")
+    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/lyrics/english")
     print("Will use song directory (input): " + songDirectory)
 
     # Query transposed song directory path string
-    transposedSongDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/lyrics/transposed_english")
+    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","/opt/Dropbox/lyrics/transposed_english")
 
     if os.path.isdir(transposedSongDirectory):
         yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
