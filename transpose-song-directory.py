@@ -82,11 +82,11 @@ if __name__ == '__main__':
     print("-----------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/lyrics/english")
+    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/chords/guitar/english")
     print("Will use song directory (input): " + songDirectory)
 
     # Query transposed song directory path string
-    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","/opt/Dropbox/lyrics/transposed_english")
+    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","/opt/Dropbox/chords/transposed/english")
 
     if os.path.isdir(transposedSongDirectory):
         yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
