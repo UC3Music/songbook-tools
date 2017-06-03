@@ -59,8 +59,6 @@ def transpose(matchobj):
     #exceptions:
     if matchobj.group(0).find("(chords") != -1:
         return matchobj.group(0)
-    if matchobj.group(0).find("(Chords") != -1:
-        return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
