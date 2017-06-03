@@ -17,7 +17,8 @@ import re
 from pychord import Chord
 from pychord import ChordProgression
 
-halfTones = 0
+globalHalfTones = 0
+songHalfTones = 0
 
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
@@ -33,7 +34,7 @@ def process( stringToProcess, processed ):
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         #print '* Extracted "' + chord.chord + '" chord.'
-        chord.transpose( halfTones, "C#" )
+        chord.transpose( songHalfTones, "C#" )
         #print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
         #print '* Processed after chord "' + processed + '".'
@@ -100,8 +101,8 @@ if __name__ == '__main__':
         print("Will use (newly created) transposed song directory (output): " + transposedSongDirectory)
 
     # Query transposition
-    halfTones = int( query("Please specify half tones of transposition","0") )
-    print("Will use half tones of transposition: " + str(halfTones))
+    globalHalfTones = int( query("Please specify half tones of transposition","0") )
+    print("Will use half tones of transposition: " + str(globalHalfTones))
 
     print("----------------------")
 
@@ -109,6 +110,7 @@ if __name__ == '__main__':
         for filename in sorted(filenames):
             #debug
             print filename
+            songHalfTones = globalHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
