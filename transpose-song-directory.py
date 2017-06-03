@@ -27,10 +27,12 @@ def query(question, default):
         return default
     return choice
 
-def process( stringToProcess, processed ):
+def process( stringToProcess, processed):
+    global songHalfTones
     #print 'String to process "' + stringToProcess + '".'
     afterSplit = re.split("  |-|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
     #print '* Split by delimiters "' + str(afterSplit) + '".'
+    #print 'songHalfTones:',songHalfTones
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         #print '* Extracted "' + chord.chord + '" chord.'
@@ -54,18 +56,29 @@ def process( stringToProcess, processed ):
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
+    global songHalfTones
     # debug
     print "--- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0).find("capo") != -1:
         m = matchobj.group(0)
         got = [int(s) for s in m.split() if s.isdigit()]
-        print 'capo:',got
+        print '*** capo:',got
+        songHalfTones += got[0]
+        print '*** songHalfTones:',songHalfTones
+        if len(got) != 1:
+            print '*** ERROR (len(got) != 1)'
+            quit()
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
         m = matchobj.group(0)
         got = [int(s) for s in m.split() if s.isdigit()]
-        print 'drop:',got
+        print '*** drop:',got
+        songHalfTones -= got[0]
+        print '*** songHalfTones:',songHalfTones
+        if len(got) != 1:
+            print '*** ERROR (len(got) != 1)'
+            quit()
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
@@ -114,9 +127,9 @@ if __name__ == '__main__':
 
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
+            songHalfTones = globalHalfTones
             #debug
             print filename
-            songHalfTones = globalHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
