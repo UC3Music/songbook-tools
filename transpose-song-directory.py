@@ -58,12 +58,13 @@ def transpose(matchobj):
     print "--- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0).find("capo") != -1:
-        got = [int(s) for s in str.split() if s.isdigit()]
+        m = matchobj.group(0)
+        got = [int(s) for s in m.split() if s.isdigit()]
         print 'capo:',got
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
-        s = matchobj.group(0)
-        got = [int(s) for s in str.split() if s.isdigit()]
+        m = matchobj.group(0)
+        got = [int(s) for s in m.split() if s.isdigit()]
         print 'drop:',got
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
