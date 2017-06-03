@@ -62,23 +62,23 @@ def transpose(matchobj):
     #exceptions:
     if matchobj.group(0).find("capo") != -1:
         m = matchobj.group(0)
-        got = [int(s) for s in m.split() if s.isdigit()]
-        print '*** capo:',got
-        songHalfTones += got[0]
-        print '*** songHalfTones:',songHalfTones
+        got = re.findall('\d+', m)
         if len(got) != 1:
             print '*** ERROR (len(got) != 1)'
             quit()
+        print '*** capo:',int(got[0])
+        songHalfTones += int(got[0])
+        print '*** songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
         m = matchobj.group(0)
-        got = [int(s) for s in m.split() if s.isdigit()]
-        print '*** drop:',got
-        songHalfTones -= got[0]
-        print '*** songHalfTones:',songHalfTones
+        got = re.findall('\d+', m)
         if len(got) != 1:
             print '*** ERROR (len(got) != 1)'
             quit()
+        print '*** got:',int(got[0])
+        songHalfTones -= int(got[0])
+        print '*** songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
