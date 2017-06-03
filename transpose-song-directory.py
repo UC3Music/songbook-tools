@@ -68,7 +68,7 @@ def transpose(matchobj):
             quit()
         print '*** capo:',int(got[0])
         songHalfTones += int(got[0])
-        print '*** songHalfTones:',songHalfTones
+        print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
         m = matchobj.group(0)
@@ -76,9 +76,9 @@ def transpose(matchobj):
         if len(got) != 1:
             print '*** ERROR (len(got) != 1)'
             quit()
-        print '*** got:',int(got[0])
+        print '*** drop:',int(got[0])
         songHalfTones -= int(got[0])
-        print '*** songHalfTones:',songHalfTones
+        print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
@@ -130,6 +130,7 @@ if __name__ == '__main__':
             songHalfTones = globalHalfTones
             #debug
             print filename
+            print '*** songHalfTones:',songHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
