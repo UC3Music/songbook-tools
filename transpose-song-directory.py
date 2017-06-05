@@ -19,6 +19,7 @@ from pychord import ChordProgression
 
 globalHalfTones = 0
 songHalfTones = 0
+applyCapoDropCorrection = True
 
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
@@ -61,24 +62,26 @@ def transpose(matchobj):
     print "--- " + matchobj.group(0)
     #exceptions:
     if matchobj.group(0).find("capo") != -1:
-        m = matchobj.group(0)
-        got = re.findall('\d+', m)
-        if len(got) != 1:
-            print '*** ERROR (len(got) != 1)'
-            quit()
-        print '*** capo:',int(got[0])
-        songHalfTones += int(got[0])
-        print '*** new songHalfTones:',songHalfTones
+        if applyCapoDropCorrection:
+            m = matchobj.group(0)
+            got = re.findall('\d+', m)
+            if len(got) != 1:
+                print '*** ERROR (len(got) != 1)'
+                quit()
+            print '*** capo:',int(got[0])
+            songHalfTones += int(got[0])
+            print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
-        m = matchobj.group(0)
-        got = re.findall('\d+', m)
-        if len(got) != 1:
-            print '*** ERROR (len(got) != 1)'
-            quit()
-        print '*** drop:',int(got[0])
-        songHalfTones -= int(got[0])
-        print '*** new songHalfTones:',songHalfTones
+        if applyCapoDropCorrection:
+            m = matchobj.group(0)
+            got = re.findall('\d+', m)
+            if len(got) != 1:
+                print '*** ERROR (len(got) != 1)'
+                quit()
+            print '*** drop:',int(got[0])
+            songHalfTones -= int(got[0])
+            print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
@@ -122,6 +125,18 @@ if __name__ == '__main__':
     # Query transposition
     globalHalfTones = int( query("Please specify half tones of transposition","0") )
     print("Will use half tones of transposition: " + str(globalHalfTones))
+
+    # Query transposition
+    while True:
+        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?','yes')
+        if yesNo == "yes" or yesNo == "y":
+            print("Will apply capo/drop correction")
+            applyCapoDropCorrection = True
+            break
+        elif yesNo == "no" or yesNo == "n":
+            print("Will not apply capo/drop correction")
+            applyCapoDropCorrection = False
+            break
 
     print("----------------------")
 
