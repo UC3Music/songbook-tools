@@ -9,7 +9,7 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
 
 - **extra-tools/songbook-dump-index.py** - Dump the index of a PDF songbook to blacklist and avoid duplicates.
 
-# Install dependencies
+## Install dependencies
 
 ```bash
 sudo pip install -r requirements.txt
