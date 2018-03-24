@@ -12,6 +12,8 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
+import re
+
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
@@ -52,4 +54,11 @@ if __name__ == '__main__':
         for filename in sorted(filenames):
             #debug
             print filename
+            songIn = open( os.path.join(dirname, filename) )
+            songOut = open( os.path.join(strippedSongDirectory, filename), "w" )
+            contents = songIn.read()
+            contents = re.sub("\([^)]*\)", '', contents)
+            songOut.write(contents)
+            songOut.close()
+            songIn.close()
 
