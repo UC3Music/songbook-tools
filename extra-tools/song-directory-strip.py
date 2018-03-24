@@ -50,39 +50,6 @@ if __name__ == '__main__':
     rep = ""
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
-            name, extension = os.path.splitext(filename)
-            if manifestFile != "":
-                if manifestMmap.find(name) != -1:
-                    print "Skipping:", name
-                    continue
-            rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-            rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
-            songName = name.split(" - ")[-1]
-            rep += "\\index{{song}}{" + songName + "}\n"
-            rep += "\\begin{alltt}\n"
-            song = open( os.path.join(dirname, filename) )
-            rep += song.read()
-            song.close()
-            rep += "\\end{alltt}\n"
-            rep += "\n"
-    #sys.stdout.write(rep)  #-- Screen output for debugging.
-
-    rep = rep.replace("(","\\textbf{(")
-    rep = rep.replace(")",")}")
-
-    rep = rep.replace("[","\\textit{[")
-    rep = rep.replace("]","]}")
-
-    rep = rep.replace("{{song}}","[song]")
-
-    s = s.replace("genSongbook",rep)
-
-    outFd = open("out.tex", 'w')
-    outFd.write(s)
-    outFd.close()
-
-    #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
-    #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
+            #debug
+            print filename
 
