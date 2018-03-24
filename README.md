@@ -2,13 +2,13 @@
 
 Tools for minimally markuped songs, like LaTeX songbook generation and chord transposition.
 
-- See the [examples](examples) directory for an example of the markup.
+- [examples/](examples/) - Directory with minimally markuped song examples.
 
 - [song-directory-to-songbook.py](song-directory-to-songbook.py) - Given a directory composed by minimally markuped songs, generate a LaTeX songbook.
 
 - [song-directory-transpose.py](song-directory-transpose.py) - Given a directory composed by minimally markuped songs, transpose all the chords.
 
-- [extra-tools/songbook-dump-index.py](extra-tools/songbook-dump-index.py) - Given a generated LaTeX songbook, dump the index of the PDF to a manifest file for blacklisting and avoiding duplicates.
+- [extra-tools/](extra-tools/) - Directory with extra tools.
 
 
 ## Install dependencies
