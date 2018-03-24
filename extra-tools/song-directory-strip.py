@@ -21,9 +21,9 @@ def query(question, default):
 
 if __name__ == '__main__':
 
-    print("-------------------------------------")
-    print("Welcome to song-directory-to-songbook")
-    print("-------------------------------------")
+    print("-------------------------------")
+    print("Welcome to song-directory-strip")
+    print("-------------------------------")
 
     # Query song directory path string
     songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/chords/0-GUITAR/english")
