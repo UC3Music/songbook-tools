@@ -101,7 +101,7 @@ def transpose(matchobj):
 if __name__ == '__main__':
 
     print("-----------------------------------")
-    print("Welcome to transpose-song-directory")
+    print("Welcome to song-directory-transpose")
     print("-----------------------------------")
 
     # Query song directory path string
