@@ -1,5 +1,4 @@
-songbook-tools
-==============
+# songbook-tools
 
 Tools for minimally markuped songs, like LaTeX songbook generation and chord transposition.
 
