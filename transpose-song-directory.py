@@ -100,9 +100,9 @@ def transpose(matchobj):
 
 if __name__ == '__main__':
 
-    print("-----------------------")
-    print("Welcome to transposeDir")
-    print("-----------------------")
+    print("-----------------------------------")
+    print("Welcome to transpose-song-directory")
+    print("-----------------------------------")
 
     # Query song directory path string
     songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/chords/0-GUITAR/english")
