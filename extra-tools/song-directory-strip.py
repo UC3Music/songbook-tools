@@ -26,27 +26,25 @@ if __name__ == '__main__':
     print("-------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory: " + songDirectory)
+    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/chords/0-GUITAR/english")
+    print("Will use song directory (input): " + songDirectory)
 
-    # Query template file path string
-    templateFile = query("Please specify the path of the template file","template/english.tex")
-    print("Will use template file: " + templateFile)
+    # Query stripped song directory path string
+    strippedSongDirectory = query("Please specify the path of the stripped song (output) directory","tmp")
 
-    # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file","")
-    if manifestFile == "":
-        print("Not using avoiding-manifest file.")
+    if os.path.isdir(strippedSongDirectory):
+        yesNo = query('Path "' + strippedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
+        if yesNo != "yes" and yesNo != "y":
+            print "Ok, bye!"
+            quit()
+        else:
+            print("Will use (existing) stripped song directory (output): " + strippedSongDirectory)
     else:
-        print("Will use avoiding-manifest file: " + manifestFile)
-        manifestFileFd = open(manifestFile, 'r')
-        manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
-        manifestFileFd.close()
+        os.makedirs(strippedSongDirectory)
+        print("Will use (newly created) stripped song directory (output): " + strippedSongDirectory)
 
     print("----------------------")
 
-    templateFileFd = open(templateFile, 'r')
-    s = templateFileFd.read()
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
     rep = ""
