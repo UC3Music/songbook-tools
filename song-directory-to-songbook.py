@@ -14,7 +14,9 @@ readline.parse_and_bind("set match-hidden-files off")
 
 import argparse
 
-def query(question, default):
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -28,6 +30,11 @@ if __name__ == '__main__':
     print("-------------------------------------")
 
     parser = argparse.ArgumentParser()
+
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
@@ -39,8 +46,13 @@ if __name__ == '__main__':
                         default='')
     args = parser.parse_args()
 
+    skipQueries = False
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
     # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input)
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query template file path string
