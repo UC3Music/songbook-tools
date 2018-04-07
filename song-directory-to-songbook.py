@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, os
 
@@ -12,7 +12,11 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
-def query(question, default):
+import argparse
+
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -25,16 +29,38 @@ if __name__ == '__main__':
     print("Welcome to song-directory-to-songbook")
     print("-------------------------------------")
 
-    # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory: " + songDirectory)
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--template',
+                        help='specify the path of the template file',
+                        default='template/english.tex')
+    parser.add_argument('--manifest',
+                        help='(optional) specify the path of the template file',
+                        default='')
+    args = parser.parse_args()
+
+    skipQueries = False
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
+    print("Will use song (input) directory: " + inputDirectory)
 
     # Query template file path string
-    templateFile = query("Please specify the path of the template file","template/english.tex")
+    templateFile = query("Please specify the path of the template file", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
     # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file","")
+    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest, skipQueries)
     if manifestFile == "":
         print("Not using avoiding-manifest file.")
     else:
@@ -50,7 +76,7 @@ if __name__ == '__main__':
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
     rep = ""
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             name, extension = os.path.splitext(filename)
             if manifestFile != "":

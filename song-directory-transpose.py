@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, os
 
@@ -12,6 +12,8 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
+import argparse
+
 import re
 
 from pychord import Chord
@@ -21,7 +23,9 @@ globalHalfTones = 0
 songHalfTones = 0
 applyCapoDropCorrection = True
 
-def query(question, default):
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -104,31 +108,61 @@ if __name__ == '__main__':
     print("Welcome to song-directory-transpose")
     print("-----------------------------------")
 
-    # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory (input): " + songDirectory)
+    parser = argparse.ArgumentParser()
 
-    # Query transposed song directory path string
-    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","tmp")
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the path of the default song (output) directory',
+                        default='tmp')
+    parser.add_argument('--transpose',
+                        help='specify half tones of transposition',
+                        default='0')
+    parser.add_argument('--disableCapoDropCorrection',
+                        help='specify if automatic capo/drop correction should be disabled',
+                        nargs='?',
+                        default='absent')
+    args = parser.parse_args()
 
-    if os.path.isdir(transposedSongDirectory):
-        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
+    skipQueries = False
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
+    print("Will use song (input) directory: " + inputDirectory)
+
+    # Query the path of the song (output) directory
+    outputDirectory = query("Please specify the path of the song (output) directory", args.output, skipQueries)
+
+    if os.path.isdir(outputDirectory):
+        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) transposed song directory (output): " + transposedSongDirectory)
+            print("Will use (existing) song (output) directory: " + outputDirectory)
     else:
-        os.makedirs(transposedSongDirectory)
-        print("Will use (newly created) transposed song directory (output): " + transposedSongDirectory)
+        os.makedirs(outputDirectory)
+        print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     # Query transposition
-    globalHalfTones = int( query("Please specify half tones of transposition (7 or -5 for soprano ukelele and guitalele)","0") )
+    globalHalfTones = int( query("Please specify half tones of transposition (e.g. 7 or -5 for soprano ukelele and guitalele)", args.transpose, skipQueries) )
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
-    # Query transposition
+    # Query capoDropCorrection
+    defaultApplyCapoDropCorrection = 'yes'
+    if args.disableCapoDropCorrection is not 'absent':
+        defaultApplyCapoDropCorrection = 'no'
+
     while True:
-        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?','yes')
+        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?', defaultApplyCapoDropCorrection, skipQueries)
         if yesNo == "yes" or yesNo == "y":
             print("Will apply capo/drop correction")
             applyCapoDropCorrection = True
@@ -140,7 +174,7 @@ if __name__ == '__main__':
 
     print("----------------------")
 
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             songHalfTones = globalHalfTones
             #debug
@@ -148,10 +182,9 @@ if __name__ == '__main__':
             print '*** songHalfTones:',songHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
-            songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
+            songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
             contents = re.sub("\([^)]*\)", transpose, contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
-

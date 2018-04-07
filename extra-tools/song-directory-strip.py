@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, os
 
@@ -12,9 +12,13 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
+import argparse
+
 import re
 
-def query(question, default):
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -27,38 +31,56 @@ if __name__ == '__main__':
     print("Welcome to song-directory-strip")
     print("-------------------------------")
 
-    # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory (input): " + songDirectory)
+    parser = argparse.ArgumentParser()
 
-    # Query stripped song directory path string
-    strippedSongDirectory = query("Please specify the path of the stripped song (output) directory","tmp")
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the path of the default song (output) directory',
+                        default='tmp')
+    args = parser.parse_args()
 
-    if os.path.isdir(strippedSongDirectory):
-        yesNo = query('Path "' + strippedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
+    skipQueries = False
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
+    print("Will use song (input) directory: " + inputDirectory)
+
+    # Query the path of the song (output) directory
+    outputDirectory = query("Please specify the path of the song (output) directory", args.output, skipQueries)
+
+    if os.path.isdir(outputDirectory):
+        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) stripped song directory (output): " + strippedSongDirectory)
+            print("Will use (existing) song (output) directory: " + outputDirectory)
     else:
-        os.makedirs(strippedSongDirectory)
-        print("Will use (newly created) stripped song directory (output): " + strippedSongDirectory)
+        os.makedirs(outputDirectory)
+        print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     print("----------------------")
 
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
     rep = ""
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             #debug
             print filename
             songIn = open( os.path.join(dirname, filename) )
-            songOut = open( os.path.join(strippedSongDirectory, filename), "w" )
+            songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
             contents = re.sub("\([^)]*\)", '', contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
-
