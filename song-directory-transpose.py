@@ -17,7 +17,9 @@ import re
 from pychord import Chord
 from pychord import ChordProgression
 
-halfTones = 0
+globalHalfTones = 0
+songHalfTones = 0
+applyCapoDropCorrection = True
 
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
@@ -26,14 +28,16 @@ def query(question, default):
         return default
     return choice
 
-def process( stringToProcess, processed ):
+def process( stringToProcess, processed):
+    global songHalfTones
     #print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split("  |-|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
+    afterSplit = re.split("  |-|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
     #print '* Split by delimiters "' + str(afterSplit) + '".'
+    #print 'songHalfTones:',songHalfTones
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
         #print '* Extracted "' + chord.chord + '" chord.'
-        chord.transpose( halfTones, "C#" )
+        chord.transpose( songHalfTones, "C#" )
         #print '* Transposed to "' + chord.chord + '" chord.'
         processed += chord.chord
         #print '* Processed after chord "' + processed + '".'
@@ -53,12 +57,31 @@ def process( stringToProcess, processed ):
     return process( afterSplit[1], processed )
 
 def transpose(matchobj):
+    global songHalfTones
     # debug
     print "--- " + matchobj.group(0)
     #exceptions:
-    if matchobj.group(0).find("(chords") != -1:
+    if matchobj.group(0).find("capo") != -1:
+        if applyCapoDropCorrection:
+            m = matchobj.group(0)
+            got = re.findall('\d+', m)
+            if len(got) != 1:
+                print '*** ERROR (len(got) != 1)'
+                quit()
+            print '*** capo:',int(got[0])
+            songHalfTones += int(got[0])
+            print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
-    if matchobj.group(0).find("(Chords") != -1:
+    if matchobj.group(0).find("drop") != -1:
+        if applyCapoDropCorrection:
+            m = matchobj.group(0)
+            got = re.findall('\d+', m)
+            if len(got) != 1:
+                print '*** ERROR (len(got) != 1)'
+                quit()
+            print '*** drop:',int(got[0])
+            songHalfTones -= int(got[0])
+            print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
     if matchobj.group(0).find("bpm") != -1:
         return matchobj.group(0)
@@ -77,16 +100,16 @@ def transpose(matchobj):
 
 if __name__ == '__main__':
 
-    print("-----------------------")
-    print("Welcome to transposeDir")
-    print("-----------------------")
+    print("-----------------------------------")
+    print("Welcome to song-directory-transpose")
+    print("-----------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/lyrics/english")
+    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/chords/0-GUITAR/english")
     print("Will use song directory (input): " + songDirectory)
 
     # Query transposed song directory path string
-    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","/opt/Dropbox/lyrics/transposed_english")
+    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","tmp")
 
     if os.path.isdir(transposedSongDirectory):
         yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
@@ -100,15 +123,29 @@ if __name__ == '__main__':
         print("Will use (newly created) transposed song directory (output): " + transposedSongDirectory)
 
     # Query transposition
-    halfTones = int( query("Please specify half tones of transposition","0") )
-    print("Will use half tones of transposition: " + str(halfTones))
+    globalHalfTones = int( query("Please specify half tones of transposition (7 or -5 for soprano ukelele and guitalele)","0") )
+    print("Will use half tones of transposition: " + str(globalHalfTones))
+
+    # Query transposition
+    while True:
+        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?','yes')
+        if yesNo == "yes" or yesNo == "y":
+            print("Will apply capo/drop correction")
+            applyCapoDropCorrection = True
+            break
+        elif yesNo == "no" or yesNo == "n":
+            print("Will not apply capo/drop correction")
+            applyCapoDropCorrection = False
+            break
 
     print("----------------------")
 
     for dirname, dirnames, filenames in os.walk( songDirectory ):
         for filename in sorted(filenames):
+            songHalfTones = globalHalfTones
             #debug
             print filename
+            print '*** songHalfTones:',songHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open( os.path.join(transposedSongDirectory, filename), "w" )

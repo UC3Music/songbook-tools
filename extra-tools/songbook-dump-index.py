@@ -29,6 +29,11 @@ def walk_index(manifestFd,iterp, doc):
         walk_index(manifestFd,child, doc)
 
 if __name__ == '__main__':
+
+    print("------------------------------")
+    print("Welcome to songbook-dump-index")
+    print("------------------------------")
+
     # Query path_to_pdf string
     path_to_pdf = query("Please specify the pdf file","out.pdf")
     if not os.path.isabs(path_to_pdf):

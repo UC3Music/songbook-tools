@@ -1,1 +1,1 @@
-pychord==0.2.6
+pychord==0.2.6  # Used by song-directory-transpose.py

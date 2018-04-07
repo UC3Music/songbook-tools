@@ -21,12 +21,12 @@ def query(question, default):
 
 if __name__ == '__main__':
 
-    print("----------------------")
-    print("Welcome to genSongbook")
-    print("----------------------")
+    print("-------------------------------------")
+    print("Welcome to song-directory-to-songbook")
+    print("-------------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/lyrics/english")
+    songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/chords/0-GUITAR/english")
     print("Will use song directory: " + songDirectory)
 
     # Query template file path string
