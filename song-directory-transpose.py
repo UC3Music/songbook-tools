@@ -113,6 +113,9 @@ if __name__ == '__main__':
     parser.add_argument('--output',
                         help='specify the path of the default song (output) directory',
                         default='tmp')
+    parser.add_argument('--transpose',
+                        help='specify half tones of transposition',
+                        default='0')
     args = parser.parse_args()
 
     # Query the path of the song (input) directory
@@ -134,7 +137,7 @@ if __name__ == '__main__':
         print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     # Query transposition
-    globalHalfTones = int( query("Please specify half tones of transposition (e.g. 7 or -5 for soprano ukelele and guitalele)","0") )
+    globalHalfTones = int( query("Please specify half tones of transposition (e.g. 7 or -5 for soprano ukelele and guitalele)", args.transpose) )
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
     # Query transposition
