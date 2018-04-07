@@ -16,7 +16,9 @@ import argparse
 
 import re
 
-def query(question, default):
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -30,6 +32,11 @@ if __name__ == '__main__':
     print("-------------------------------")
 
     parser = argparse.ArgumentParser()
+
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='default')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
@@ -38,15 +45,20 @@ if __name__ == '__main__':
                         default='tmp')
     args = parser.parse_args()
 
+    skipQueries = False
+    if args.yes is not 'default':  # if exists and no contents, replaces 'default' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
     # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input)
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query the path of the song (output) directory
-    outputDirectory = query("Please specify the path of the song (output) directory", args.output)
+    outputDirectory = query("Please specify the path of the song (output) directory", args.output, skipQueries)
 
     if os.path.isdir(outputDirectory):
-        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes')
+        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
