@@ -26,8 +26,8 @@ if __name__ == '__main__':
     print("-------------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory: " + songDirectory)
+    inputDirectory = query("Please specify the path of the input song directory", "/home/yo/Dropbox/chords/0-GUITAR/english")
+    print("Will use song directory: " + inputDirectory)
 
     # Query template file path string
     templateFile = query("Please specify the path of the template file","template/english.tex")
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
     rep = ""
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             name, extension = os.path.splitext(filename)
             if manifestFile != "":
