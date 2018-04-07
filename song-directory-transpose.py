@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, os
 
@@ -13,6 +13,8 @@ readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
 import re
+
+import argparse
 
 from pychord import Chord
 from pychord import ChordProgression
@@ -104,12 +106,21 @@ if __name__ == '__main__':
     print("Welcome to song-directory-transpose")
     print("-----------------------------------")
 
-    # Query song directory path string
-    inputDirectory = query("Please specify the path of the song (input) directory", "/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory (input): " + inputDirectory)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the path of the default song (output) directory',
+                        default='tmp')
+    args = parser.parse_args()
 
-    # Query transposed song directory path string
-    outputDirectory = query("Please specify the path of the transposed song (output) directory", "tmp")
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input)
+    print("Will use song (input) directory: " + inputDirectory)
+
+    # Query the path of the song (output) directory
+    outputDirectory = query("Please specify the path of the song (output) directory", args.output)
 
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes')
