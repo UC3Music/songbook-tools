@@ -26,7 +26,7 @@ if __name__ == '__main__':
     print("-------------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the input song directory","/opt/Dropbox/chords/0-GUITAR/english")
+    songDirectory = query("Please specify the path of the input song directory","/home/yo/Dropbox/chords/0-GUITAR/english")
     print("Will use song directory: " + songDirectory)
 
     # Query template file path string

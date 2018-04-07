@@ -105,7 +105,7 @@ if __name__ == '__main__':
     print("-----------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/opt/Dropbox/chords/0-GUITAR/english")
+    songDirectory = query("Please specify the path of the song (input) directory","/home/yo/Dropbox/chords/0-GUITAR/english")
     print("Will use song directory (input): " + songDirectory)
 
     # Query transposed song directory path string
