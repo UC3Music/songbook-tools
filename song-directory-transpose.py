@@ -134,7 +134,7 @@ if __name__ == '__main__':
         print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     # Query transposition
-    globalHalfTones = int( query("Please specify half tones of transposition (7 or -5 for soprano ukelele and guitalele)","0") )
+    globalHalfTones = int( query("Please specify half tones of transposition (e.g. 7 or -5 for soprano ukelele and guitalele)","0") )
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
     # Query transposition
