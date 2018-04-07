@@ -56,11 +56,11 @@ if __name__ == '__main__':
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query template file path string
-    templateFile = query("Please specify the path of the template file", args.template)
+    templateFile = query("Please specify the path of the template file", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
     # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest)
+    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest, skipQueries)
     if manifestFile == "":
         print("Not using avoiding-manifest file.")
     else:
