@@ -105,22 +105,22 @@ if __name__ == '__main__':
     print("-----------------------------------")
 
     # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory (input): " + songDirectory)
+    inputDirectory = query("Please specify the path of the song (input) directory", "/home/yo/Dropbox/chords/0-GUITAR/english")
+    print("Will use song directory (input): " + inputDirectory)
 
     # Query transposed song directory path string
-    transposedSongDirectory = query("Please specify the path of the transposed song (output) directory","tmp")
+    outputDirectory = query("Please specify the path of the transposed song (output) directory", "tmp")
 
-    if os.path.isdir(transposedSongDirectory):
-        yesNo = query('Path "' + transposedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
+    if os.path.isdir(outputDirectory):
+        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes')
         if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) transposed song directory (output): " + transposedSongDirectory)
+            print("Will use (existing) song (output) directory: " + outputDirectory)
     else:
-        os.makedirs(transposedSongDirectory)
-        print("Will use (newly created) transposed song directory (output): " + transposedSongDirectory)
+        os.makedirs(outputDirectory)
+        print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     # Query transposition
     globalHalfTones = int( query("Please specify half tones of transposition (7 or -5 for soprano ukelele and guitalele)","0") )
@@ -140,7 +140,7 @@ if __name__ == '__main__':
 
     print("----------------------")
 
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             songHalfTones = globalHalfTones
             #debug
@@ -148,10 +148,9 @@ if __name__ == '__main__':
             print '*** songHalfTones:',songHalfTones
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
-            songOut = open( os.path.join(transposedSongDirectory, filename), "w" )
+            songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
             contents = re.sub("\([^)]*\)", transpose, contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
-
