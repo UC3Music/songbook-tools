@@ -113,7 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
-                        default='default')  # required, see below
+                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
@@ -123,10 +123,14 @@ if __name__ == '__main__':
     parser.add_argument('--transpose',
                         help='specify half tones of transposition',
                         default='0')
+    parser.add_argument('--disableCapoDropCorrection',
+                        help='specify if automatic capo/drop correction should be disabled',
+                        nargs='?',
+                        default='absent')
     args = parser.parse_args()
 
     skipQueries = False
-    if args.yes is not 'default':  # if exists and no contents, replaces 'default' by None
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
@@ -152,9 +156,13 @@ if __name__ == '__main__':
     globalHalfTones = int( query("Please specify half tones of transposition (e.g. 7 or -5 for soprano ukelele and guitalele)", args.transpose, skipQueries) )
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
-    # Query transposition
+    # Query capoDropCorrection
+    defaultApplyCapoDropCorrection = 'yes'
+    if args.disableCapoDropCorrection is not 'absent':
+        defaultApplyCapoDropCorrection = 'no'
+
     while True:
-        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?','yes')
+        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?', defaultApplyCapoDropCorrection, skipQueries)
         if yesNo == "yes" or yesNo == "y":
             print("Will apply capo/drop correction")
             applyCapoDropCorrection = True
