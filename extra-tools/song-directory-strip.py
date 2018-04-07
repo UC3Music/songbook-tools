@@ -38,38 +38,37 @@ if __name__ == '__main__':
                         default='tmp')
     args = parser.parse_args()
 
-    # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory", args.input)
-    print("Will use song (input) directory: " + songDirectory)
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input)
+    print("Will use song (input) directory: " + inputDirectory)
 
-    # Query stripped song directory path string
-    strippedSongDirectory = query("Please specify the path of the stripped song (output) directory", args.output)
+    # Query the path of the song (output) directory
+    outputDirectory = query("Please specify the path of the song (output) directory", args.output)
 
-    if os.path.isdir(strippedSongDirectory):
-        yesNo = query('Path "' + strippedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
+    if os.path.isdir(outputDirectory):
+        yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes')
         if yesNo != "yes" and yesNo != "y":
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) stripped song directory (output): " + strippedSongDirectory)
+            print("Will use (existing) song (output) directory: " + outputDirectory)
     else:
-        os.makedirs(strippedSongDirectory)
-        print("Will use (newly created) stripped song directory (output): " + strippedSongDirectory)
+        os.makedirs(outputDirectory)
+        print("Will use (newly created) song (output) directory: " + outputDirectory)
 
     print("----------------------")
 
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
     rep = ""
-    for dirname, dirnames, filenames in os.walk( songDirectory ):
+    for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             #debug
             print filename
             songIn = open( os.path.join(dirname, filename) )
-            songOut = open( os.path.join(strippedSongDirectory, filename), "w" )
+            songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
             contents = re.sub("\([^)]*\)", '', contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
-
