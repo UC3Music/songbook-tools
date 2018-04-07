@@ -14,6 +14,8 @@ readline.parse_and_bind("set match-hidden-files off")
 
 import re
 
+import argparse
+
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
@@ -27,12 +29,21 @@ if __name__ == '__main__':
     print("Welcome to song-directory-strip")
     print("-------------------------------")
 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the path of the default song (output) directory',
+                        default='tmp')
+    args = parser.parse_args()
+
     # Query song directory path string
-    songDirectory = query("Please specify the path of the song (input) directory","/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory (input): " + songDirectory)
+    songDirectory = query("Please specify the path of the song (input) directory", args.input)
+    print("Will use song (input) directory: " + songDirectory)
 
     # Query stripped song directory path string
-    strippedSongDirectory = query("Please specify the path of the stripped song (output) directory","tmp")
+    strippedSongDirectory = query("Please specify the path of the stripped song (output) directory", args.output)
 
     if os.path.isdir(strippedSongDirectory):
         yesNo = query('Path "' + strippedSongDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)','yes')
