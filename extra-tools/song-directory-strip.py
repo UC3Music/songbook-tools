@@ -12,9 +12,9 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
-import re
-
 import argparse
+
+import re
 
 def query(question, default):
     sys.stdout.write(question + " [" + default + "] ? ")
