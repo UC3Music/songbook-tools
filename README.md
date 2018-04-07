@@ -14,5 +14,5 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
 ## Install dependencies
 
 ```bash
-sudo pip install -r requirements.txt
+pip install -r requirements.txt --user
 ```
