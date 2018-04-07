@@ -31,6 +31,12 @@ if __name__ == '__main__':
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--template',
+                        help='specify the path of the template file',
+                        default='template/english.tex')
+    parser.add_argument('--manifest',
+                        help='(optional) specify the path of the template file',
+                        default='')
     args = parser.parse_args()
 
     # Query the path of the song (input) directory
@@ -38,11 +44,11 @@ if __name__ == '__main__':
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query template file path string
-    templateFile = query("Please specify the path of the template file","template/english.tex")
+    templateFile = query("Please specify the path of the template file", args.template)
     print("Will use template file: " + templateFile)
 
     # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file","")
+    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest)
     if manifestFile == "":
         print("Not using avoiding-manifest file.")
     else:
