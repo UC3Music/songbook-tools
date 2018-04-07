@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import sys, os
 
@@ -25,9 +25,15 @@ if __name__ == '__main__':
     print("Welcome to song-directory-to-songbook")
     print("-------------------------------------")
 
-    # Query song directory path string
-    inputDirectory = query("Please specify the path of the input song directory", "/home/yo/Dropbox/chords/0-GUITAR/english")
-    print("Will use song directory: " + inputDirectory)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input',
+                        help='specify the path of the default song (input) directory',
+                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    args = parser.parse_args()
+
+    # Query the path of the song (input) directory
+    inputDirectory = query("Please specify the path of the song (input) directory", args.input)
+    print("Will use song (input) directory: " + inputDirectory)
 
     # Query template file path string
     templateFile = query("Please specify the path of the template file","template/english.tex")
