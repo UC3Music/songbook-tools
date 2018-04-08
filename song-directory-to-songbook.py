@@ -107,6 +107,7 @@ if __name__ == '__main__':
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
             songName = name.split(" - ")[-1]
+            #-- We cannot use [] yet (they will be replaced because choir), so use {{}}.
             rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
@@ -116,12 +117,15 @@ if __name__ == '__main__':
             rep += "\n"
     #sys.stdout.write(rep)  #-- Screen output for debugging.
 
+    #-- replace chords delimiter ()
     rep = rep.replace("(","\\textbf{(")
     rep = rep.replace(")",")}")
 
+    #-- replace choir delimiter []
     rep = rep.replace("[","\\textit{[")
     rep = rep.replace("]","]}")
 
+    #-- now we can do this
     rep = rep.replace("{{aux-song-index-file}}","[aux-song-index-file]")
 
     s = s.replace("genSongbook",rep)
