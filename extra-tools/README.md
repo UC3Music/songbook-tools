@@ -10,12 +10,13 @@
 
 - [song-directory-replace-symbol.py](song-directory-replace-symbol.py) - Given a directory composed by minimally markuped songs, replace a symbol.
   ```
-  -h, --help       show this help message and exit
-  --input INPUT    path of the default song input directory (default: "examples/")
-  --output OUTPUT  path of the default song output directory (default: "out/")
-  --inSymbol
-  --outSymbol
-  --yes [YES]      accept all, skip all queries (default: "NULL")
+  -h, --help            show this help message and exit
+  --input INPUT         path of the default song input directory (default: "examples/")
+  --output OUTPUT       path of the default song output directory (default: "out/")
+  --inSymbol INSYMBOL   input symbol (default: "C")
+  --outSymbol OUTSYMBOL
+                        output symbol (default: "Do")
+  --yes [YES]           accept all, skip all queries (default: "NULL")
   ```
 
 - [song-directory-strip.py](song-directory-strip.py) - Given a directory composed by minimally markuped songs, strip from all the chords.
