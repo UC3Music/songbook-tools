@@ -38,7 +38,7 @@ if __name__ == '__main__':
     print("Welcome to pdf-index-to-file")
     print("----------------------------")
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
                         help='specify the (input) pdf file',

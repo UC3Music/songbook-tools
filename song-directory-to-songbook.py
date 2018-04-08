@@ -29,7 +29,7 @@ if __name__ == '__main__':
     print("Welcome to song-directory-to-songbook")
     print("-------------------------------------")
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
