@@ -31,19 +31,22 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--yes',
-                        help='accept all, skip all queries',
-                        nargs='?',
-                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the (output) pdf file [without extension]',
+                        default='songbook')
     parser.add_argument('--template',
-                        help='specify the path of the template file',
+                        help='specify the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
     parser.add_argument('--manifest',
-                        help='(optional) specify the path of the template file',
+                        help='[optional] specify the path of a file-avoiding manifest file',
                         default='')
+    parser.add_argument('--yes',
+                        help='[optional] accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
@@ -55,16 +58,20 @@ if __name__ == '__main__':
     inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
     print("Will use song (input) directory: " + inputDirectory)
 
-    # Query template file path string
-    templateFile = query("Please specify the path of the template file", args.template, skipQueries)
+    # Query the path of the song (input) directory
+    outputFile = query("Please specify the (output) pdf file [without extension]", args.output, skipQueries)
+    print("Will use the (output) pdf file [without extension]: " + outputFile)
+
+    # Query the path of the template file
+    templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
-    # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest, skipQueries)
+    # Query (optional) the path of a file-avoiding manifest file
+    manifestFile = query("[optional] Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
     if manifestFile == "":
-        print("Not using avoiding-manifest file.")
+        print("Not using file-avoiding manifest file.")
     else:
-        print("Will use avoiding-manifest file: " + manifestFile)
+        print("Will use file-avoiding manifest file: " + manifestFile)
         manifestFileFd = open(manifestFile, 'r')
         manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
         manifestFileFd.close()
@@ -105,12 +112,13 @@ if __name__ == '__main__':
 
     s = s.replace("genSongbook",rep)
 
-    outFd = open("out.tex", 'w')
+    outName = outputFile + ".tex"
+    outFd = open(outName, 'w')
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
+    pdftex_process = subprocess.call(['pdflatex', outputFile])
+    pdftex_process = subprocess.call(['pdflatex', outputFile])
 

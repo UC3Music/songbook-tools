@@ -1,6 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
-import os, sys
+import sys, os
 
 import poppler
 
@@ -10,7 +10,11 @@ readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
 readline.parse_and_bind("set match-hidden-files off")
 
-def query(question, default):
+import argparse
+
+def query(question, default, skipQuery=False):
+    if skipQuery:
+        return default
     sys.stdout.write(question + " [" + default + "] ? ")
     choice = raw_input()
     if choice == '':
@@ -30,18 +34,37 @@ def walk_index(manifestFd,iterp, doc):
 
 if __name__ == '__main__':
 
-    print("------------------------------")
-    print("Welcome to songbook-dump-index")
-    print("------------------------------")
+    print("----------------------------")
+    print("Welcome to pdf-index-to-file")
+    print("----------------------------")
 
-    # Query path_to_pdf string
-    path_to_pdf = query("Please specify the pdf file","out.pdf")
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--input',
+                        help='specify the (input) pdf file',
+                        default='songbook.pdf')
+    parser.add_argument('--output',
+                        help='specify the (output) txt file',
+                        default='manifest.txt')
+    parser.add_argument('--yes',
+                        help='[optional] accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
+    args = parser.parse_args()
+
+    skipQueries = False
+    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+        print("Detected --yes parameter: will skip queries")
+        skipQueries = True
+
+    # Query the (input) pdf file
+    path_to_pdf = query("Please specify the (input) pdf file", args.input, skipQueries)
     if not os.path.isabs(path_to_pdf):
 	path_to_pdf = os.path.abspath('.') + "/" + path_to_pdf
     print("Will extract manifest from file: " + path_to_pdf)
 
     # Query output string
-    manifest = query("Please specify the manifest output file","manifest.txt")
+    manifest = query("Please specify the (output) txt file", args.output, skipQueries)
     print("Will extract manifest to file: " + manifest)
     manifestFd = open(manifest, 'a')
 
