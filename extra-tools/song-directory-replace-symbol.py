@@ -41,9 +41,9 @@ class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
 
 if __name__ == '__main__':
 
-    print("-------------------------------")
+    print("----------------------------------------")
     print("Welcome to song-directory-replace-symbol")
-    print("-------------------------------")
+    print("----------------------------------------")
 
     parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
