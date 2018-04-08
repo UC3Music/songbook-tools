@@ -41,10 +41,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the (input) pdf file',
+                        help='specify the input pdf file',
                         default='songbook.pdf')
     parser.add_argument('--output',
-                        help='specify the (output) txt file',
+                        help='specify the output txt file',
                         default='manifest.txt')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
@@ -57,14 +57,14 @@ if __name__ == '__main__':
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
-    # Query the (input) pdf file
-    path_to_pdf = query("Please specify the (input) pdf file", args.input, skipQueries)
+    # Query the input pdf file
+    path_to_pdf = query("Please specify the input pdf file", args.input, skipQueries)
     if not os.path.isabs(path_to_pdf):
 	path_to_pdf = os.path.abspath('.') + "/" + path_to_pdf
     print("Will extract manifest from file: " + path_to_pdf)
 
     # Query output string
-    manifest = query("Please specify the (output) txt file", args.output, skipQueries)
+    manifest = query("Please specify the output txt file", args.output, skipQueries)
     print("Will extract manifest to file: " + manifest)
     manifestFd = open(manifest, 'a')
 

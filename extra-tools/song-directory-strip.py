@@ -34,10 +34,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song (input) directory',
+                        help='specify the path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='specify the path of the default song (output) directory',
+                        help='specify the path of the default song output directory',
                         default='out/')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
@@ -50,12 +50,12 @@ if __name__ == '__main__':
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
-    # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
-    print("Will use song (input) directory: " + inputDirectory)
+    # Query the path of the song input directory
+    inputDirectory = query("Please specify the path of the song input directory", args.input, skipQueries)
+    print("Will use song input directory: " + inputDirectory)
 
-    # Query the path of the song (output) directory
-    outputDirectory = query("Please specify the path of the song (output) directory", args.output, skipQueries)
+    # Query the path of the song output directory
+    outputDirectory = query("Please specify the path of the song output directory", args.output, skipQueries)
 
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
@@ -63,10 +63,10 @@ if __name__ == '__main__':
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) song (output) directory: " + outputDirectory)
+            print("Will use (existing) song output directory: " + outputDirectory)
     else:
         os.makedirs(outputDirectory)
-        print("Will use (newly created) song (output) directory: " + outputDirectory)
+        print("Will use (newly created) song output directory: " + outputDirectory)
 
     print("----------------------")
 

@@ -46,10 +46,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song (input) directory',
+                        help='specify the path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='specify the (output) pdf file [without extension]',
+                        help='specify the output pdf file [without extension]',
                         default='songbook')
     parser.add_argument('--template',
                         help='specify the LaTeX template file [specifies language, etc]',
@@ -68,13 +68,13 @@ if __name__ == '__main__':
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
-    # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
-    print("Will use song (input) directory: " + inputDirectory)
+    # Query the path of the song input directory
+    inputDirectory = query("Please specify the path of the song input directory", args.input, skipQueries)
+    print("Will use song input directory: " + inputDirectory)
 
-    # Query the path of the song (input) directory
-    outputFile = query("Please specify the (output) pdf file [without extension]", args.output, skipQueries)
-    print("Will use the (output) pdf file [without extension]: " + outputFile)
+    # Query the path of the song input directory
+    outputFile = query("Please specify the output pdf file [without extension]", args.output, skipQueries)
+    print("Will use the output pdf file [without extension]: " + outputFile)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
