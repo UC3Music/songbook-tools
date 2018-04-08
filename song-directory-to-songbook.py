@@ -31,19 +31,22 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--yes',
-                        help='accept all, skip all queries',
-                        nargs='?',
-                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
+    parser.add_argument('--output',
+                        help='specify the (output) pdf file (without extension)',
+                        default='songbook')
     parser.add_argument('--template',
-                        help='specify the path of the template file',
+                        help='specify the template file',
                         default='template/english.tex')
     parser.add_argument('--manifest',
                         help='(optional) specify the path of a file-avoiding manifest file',
                         default='')
+    parser.add_argument('--yes',
+                        help='(optional) accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
@@ -53,6 +56,10 @@ if __name__ == '__main__':
 
     # Query the path of the song (input) directory
     inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
+    print("Will use song (input) directory: " + inputDirectory)
+
+    # Query the path of the song (input) directory
+    outputFile = query("Please specify the (output) pdf file", args.output, skipQueries)
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query the path of the template file
@@ -105,12 +112,13 @@ if __name__ == '__main__':
 
     s = s.replace("genSongbook",rep)
 
-    outFd = open("out.tex", 'w')
+    outName = outputFile + ".tex"
+    outFd = open(outName, 'w')
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
-    pdftex_process = subprocess.call(['pdflatex', 'out'])
+    pdftex_process = subprocess.call(['pdflatex', outputFile])
+    pdftex_process = subprocess.call(['pdflatex', outputFile])
 

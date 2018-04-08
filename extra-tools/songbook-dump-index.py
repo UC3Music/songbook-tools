@@ -46,7 +46,7 @@ if __name__ == '__main__':
                         default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the (input) pdf file',
-                        default='out.pdf')
+                        default='songbook.pdf')
     parser.add_argument('--output',
                         help='specify the (output) txt file',
                         default='manifest.txt')
