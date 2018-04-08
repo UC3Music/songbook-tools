@@ -32,13 +32,27 @@ def walk_index(manifestFd,iterp, doc):
       if child:
         walk_index(manifestFd,child, doc)
 
+class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
+
+    def _split_lines(self, text, width):
+        return text.splitlines()
+
+    def _get_help_string(self, action):
+        help = action.help
+        if '%(default)' not in action.help:
+            if action.default is not argparse.SUPPRESS:
+                defaulting_nargs = [argparse.OPTIONAL, argparse.ZERO_OR_MORE]
+                if action.option_strings or action.nargs in defaulting_nargs:
+                    help += ' (default: "%(default)s")'
+        return help
+
 if __name__ == '__main__':
 
     print("----------------------------")
     print("Welcome to pdf-index-to-file")
     print("----------------------------")
 
-    parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
                         help='specify the input pdf file',
