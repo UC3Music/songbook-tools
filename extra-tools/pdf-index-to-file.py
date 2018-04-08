@@ -34,22 +34,22 @@ def walk_index(manifestFd,iterp, doc):
 
 if __name__ == '__main__':
 
-    print("------------------------------")
-    print("Welcome to songbook-dump-index")
-    print("------------------------------")
+    print("----------------------------")
+    print("Welcome to pdf-index-to-file")
+    print("----------------------------")
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--yes',
-                        help='accept all, skip all queries',
-                        nargs='?',
-                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the (input) pdf file',
-                        default='out.pdf')
+                        default='songbook.pdf')
     parser.add_argument('--output',
                         help='specify the (output) txt file',
                         default='manifest.txt')
+    parser.add_argument('--yes',
+                        help='[optional] accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
