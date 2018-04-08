@@ -4,6 +4,8 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
 
 - [examples/](examples/) - Directory with minimally markuped song examples.
 
+- [extra-tools/](extra-tools/) - Directory with extra tools.
+
 - [song-directory-to-songbook.py](song-directory-to-songbook.py) - Given a directory composed by minimally markuped songs, generate a pdf songbook via LaTeX. Parameters (all optional, complementary to CLI queries):
    ```
    -h, --help           show this help message and exit
@@ -23,9 +25,6 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
    --disableCapoDropCorrection [DISABLECAPODROPCORRECTION] [optional] specify if automatic capo/drop correction should be disabled
    --yes [YES]           [optional] accept all, skip all queries
    ```
-
-- [extra-tools/](extra-tools/) - Directory with extra tools.
-
 
 ## Install dependencies
 
