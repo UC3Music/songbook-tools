@@ -35,7 +35,7 @@ def query(question, default, skipQuery=False):
 def process( stringToProcess, processed):
     global songHalfTones
     #print 'String to process "' + stringToProcess + '".'
-    afterSplit = re.split("  |-|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
+    afterSplit = re.split("  |_|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
     #print '* Split by delimiters "' + str(afterSplit) + '".'
     #print 'songHalfTones:',songHalfTones
     if len(afterSplit[0]) != 0:
