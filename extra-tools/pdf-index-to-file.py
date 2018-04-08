@@ -34,9 +34,9 @@ def walk_index(manifestFd,iterp, doc):
 
 if __name__ == '__main__':
 
-    print("------------------------------")
-    print("Welcome to songbook-dump-index")
-    print("------------------------------")
+    print("----------------------------")
+    print("Welcome to pdf-index-to-file")
+    print("----------------------------")
 
     parser = argparse.ArgumentParser()
 
