@@ -25,37 +25,51 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
+class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
+
+    def _split_lines(self, text, width):
+        return text.splitlines()
+
+    def _get_help_string(self, action):
+        help = action.help
+        if '%(default)' not in action.help:
+            if action.default is not argparse.SUPPRESS:
+                defaulting_nargs = [argparse.OPTIONAL, argparse.ZERO_OR_MORE]
+                if action.option_strings or action.nargs in defaulting_nargs:
+                    help += ' (default: "%(default)s")'
+        return help
+
 if __name__ == '__main__':
 
     print("-------------------------------")
     print("Welcome to song-directory-strip")
     print("-------------------------------")
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song (input) directory',
-                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+                        help='path of the default song input directory',
+                        default='examples/')
     parser.add_argument('--output',
-                        help='specify the path of the default song (output) directory',
-                        default='tmp')
+                        help='path of the default song output directory',
+                        default='out/')
     parser.add_argument('--yes',
-                        help='[optional] accept all, skip all queries',
+                        help='accept all, skip all queries',
                         nargs='?',
-                        default='absent')  # required, see below
+                        default='NULL')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
-    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+    if args.yes is not 'NULL':  # if exists and no contents, replaces 'NULL' by None
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
-    # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
-    print("Will use song (input) directory: " + inputDirectory)
+    # Query the path of the song input directory
+    inputDirectory = query("Please specify the path of the song input directory", args.input, skipQueries)
+    print("Will use song input directory: " + inputDirectory)
 
-    # Query the path of the song (output) directory
-    outputDirectory = query("Please specify the path of the song (output) directory", args.output, skipQueries)
+    # Query the path of the song output directory
+    outputDirectory = query("Please specify the path of the song output directory", args.output, skipQueries)
 
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
@@ -63,10 +77,10 @@ if __name__ == '__main__':
             print "Ok, bye!"
             quit()
         else:
-            print("Will use (existing) song (output) directory: " + outputDirectory)
+            print("Will use (existing) song output directory: " + outputDirectory)
     else:
         os.makedirs(outputDirectory)
-        print("Will use (newly created) song (output) directory: " + outputDirectory)
+        print("Will use (newly created) song output directory: " + outputDirectory)
 
     print("----------------------")
 
