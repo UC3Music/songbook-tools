@@ -67,7 +67,7 @@ if __name__ == '__main__':
     print("Will use template file: " + templateFile)
 
     # Query (optional) the path of a file-avoiding manifest file
-    manifestFile = query("(optional) Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
+    manifestFile = query("[optional] Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
     if manifestFile == "":
         print("Not using file-avoiding manifest file.")
     else:

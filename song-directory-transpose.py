@@ -120,11 +120,11 @@ if __name__ == '__main__':
                         help='specify half tones of transposition',
                         default='0')
     parser.add_argument('--disableCapoDropCorrection',
-                        help='specify if automatic capo/drop correction should be disabled',
+                        help='[optional] specify if automatic capo/drop correction should be disabled',
                         nargs='?',
                         default='absent')
     parser.add_argument('--yes',
-                        help='accept all, skip all queries',
+                        help='[optional] accept all, skip all queries',
                         nargs='?',
                         default='absent')  # required, see below
     args = parser.parse_args()
