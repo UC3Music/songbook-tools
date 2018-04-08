@@ -110,10 +110,6 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--yes',
-                        help='accept all, skip all queries',
-                        nargs='?',
-                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
@@ -127,6 +123,10 @@ if __name__ == '__main__':
                         help='specify if automatic capo/drop correction should be disabled',
                         nargs='?',
                         default='absent')
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
