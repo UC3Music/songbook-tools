@@ -50,7 +50,7 @@ if __name__ == '__main__':
                         default='examples/')
     parser.add_argument('--output',
                         help='name of the output pdf file',
-                        default='songbook.pdf')
+                        default='Songbook.pdf')
     parser.add_argument('--template',
                         help='name of the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
@@ -75,6 +75,7 @@ if __name__ == '__main__':
     # Query the path of the song input directory
     outputFile = query("Please specify the name of the output pdf file", args.output, skipQueries)
     print("Will use the output pdf file: " + outputFile)
+    outputFileName, outputFileExtension = os.path.splitext(outputFile)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
@@ -128,9 +129,10 @@ if __name__ == '__main__':
     #-- now we can do this
     rep = rep.replace("{{aux-song-index-file}}","[aux-song-index-file]")
 
+    #-- replace template contents
+    s = s.replace("TITLE", outputFileName)
     s = s.replace("genSongbook",rep)
 
-    outputFileName, outputFileExtension = os.path.splitext(outputFile)
     outputFileTex = outputFileName + ".tex"
     outFd = open(outputFileTex, 'w')
     outFd.write(s)
