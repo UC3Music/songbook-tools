@@ -49,8 +49,8 @@ if __name__ == '__main__':
                         help='path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='name of the output pdf file [without extension]',
-                        default='songbook')
+                        help='name of the output pdf file',
+                        default='songbook.pdf')
     parser.add_argument('--template',
                         help='name of the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
@@ -73,8 +73,8 @@ if __name__ == '__main__':
     print("Will use song input directory: " + inputDirectory)
 
     # Query the path of the song input directory
-    outputFile = query("Please specify the name of the output pdf file [without extension]", args.output, skipQueries)
-    print("Will use the output pdf file [without extension]: " + outputFile)
+    outputFile = query("Please specify the name of the output pdf file", args.output, skipQueries)
+    print("Will use the output pdf file: " + outputFile)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
             songName = name.split(" - ")[-1]
-            rep += "\\index{{song}}{" + songName + "}\n"
+            rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
@@ -122,17 +122,26 @@ if __name__ == '__main__':
     rep = rep.replace("[","\\textit{[")
     rep = rep.replace("]","]}")
 
-    rep = rep.replace("{{song}}","[song]")
+    rep = rep.replace("{{aux-song-index-file}}","[aux-song-index-file]")
 
     s = s.replace("genSongbook",rep)
 
-    outName = outputFile + ".tex"
-    outFd = open(outName, 'w')
+    outputFileName, outputFileExtension = os.path.splitext(outputFile)
+    outputFileTex = outputFileName + ".tex"
+    outFd = open(outputFileTex, 'w')
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', outputFile])
-    pdftex_process = subprocess.call(['pdflatex', outputFile])
+    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
+    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
+    os.remove("aux-song-index-file.idx")
+    os.remove("aux-song-index-file.ilg")
+    os.remove("aux-song-index-file.ind")
+    os.remove(outputFileName + ".aux")
+    os.remove(outputFileName + ".log")
+    os.remove(outputFileName + ".out")
+    os.remove(outputFileName + ".toc")
 
+    os.remove(outputFileTex)  # may be interested in keeping

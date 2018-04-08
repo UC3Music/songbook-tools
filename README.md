@@ -19,7 +19,7 @@ pip install -r requirements.txt --user
    ```
    -h, --help           show this help message and exit
    --input INPUT        path of the default song input directory (default: "examples/")
-   --output OUTPUT      name of the output pdf file [without extension] (default: "songbook")
+   --output OUTPUT      name of the output pdf file (default: "songbook.pdf")
    --template TEMPLATE  name of the LaTeX template file [specifies language, etc] (default: "template/english.tex")
    --manifest MANIFEST  name of a file-avoiding manifest file [if desired] (default: "")
    --yes [YES]          accept all, skip all queries (default: "NULL")
