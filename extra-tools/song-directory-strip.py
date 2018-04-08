@@ -33,16 +33,16 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--yes',
-                        help='accept all, skip all queries',
-                        nargs='?',
-                        default='absent')  # required, see below
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
     parser.add_argument('--output',
                         help='specify the path of the default song (output) directory',
                         default='tmp')
+    parser.add_argument('--yes',
+                        help='accept all, skip all queries',
+                        nargs='?',
+                        default='absent')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
