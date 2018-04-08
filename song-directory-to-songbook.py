@@ -23,51 +23,65 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
+class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
+
+    def _split_lines(self, text, width):
+        return text.splitlines()
+
+    def _get_help_string(self, action):
+        help = action.help
+        if '%(default)' not in action.help:
+            if action.default is not argparse.SUPPRESS:
+                defaulting_nargs = [argparse.OPTIONAL, argparse.ZERO_OR_MORE]
+                if action.option_strings or action.nargs in defaulting_nargs:
+                    help += ' (default: "%(default)s")'
+        return help
+
 if __name__ == '__main__':
 
     print("-------------------------------------")
     print("Welcome to song-directory-to-songbook")
     print("-------------------------------------")
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song (input) directory',
+                        help='path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='specify the (output) pdf file [without extension]',
+                        help='name of the output pdf file [without extension]',
                         default='songbook')
     parser.add_argument('--template',
-                        help='specify the LaTeX template file [specifies language, etc]',
+                        help='name of the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
     parser.add_argument('--manifest',
-                        help='[optional] specify the path of a file-avoiding manifest file',
+                        help='name of a file-avoiding manifest file [if desired]',
                         default='')
     parser.add_argument('--yes',
-                        help='[optional] accept all, skip all queries',
+                        help='accept all, skip all queries',
                         nargs='?',
-                        default='absent')  # required, see below
+                        default='NULL')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
-    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+    if args.yes is not 'NULL':  # if exists and no contents, replaces 'NULL' by None
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
-    # Query the path of the song (input) directory
-    inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
-    print("Will use song (input) directory: " + inputDirectory)
+    # Query the path of the song input directory
+    inputDirectory = query("Please specify the path of the song input directory", args.input, skipQueries)
+    print("Will use song input directory: " + inputDirectory)
 
-    # Query the path of the song (input) directory
-    outputFile = query("Please specify the (output) pdf file [without extension]", args.output, skipQueries)
-    print("Will use the (output) pdf file [without extension]: " + outputFile)
+    # Query the path of the song input directory
+    outputFile = query("Please specify the name of the output pdf file [without extension]", args.output, skipQueries)
+    print("Will use the output pdf file [without extension]: " + outputFile)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
     # Query (optional) the path of a file-avoiding manifest file
-    manifestFile = query("[optional] Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
+    manifestFile = query("Please specify the name of a file-avoiding manifest file [if desired]", args.manifest, skipQueries)
     if manifestFile == "":
         print("Not using file-avoiding manifest file.")
     else:
