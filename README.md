@@ -28,9 +28,10 @@ pip install -r requirements.txt --user
 - [song-directory-transpose.py](song-directory-transpose.py) - Given a directory composed by minimally markuped songs, create a new directory with transposed chords (by number of semitones and/or capo/drop removal). Parameters (all optional, complementary to CLI queries):
    ```
    -h, --help            show this help message and exit
-   --input INPUT         specify the path of the default song input directory
-   --output OUTPUT       specify the path of the default song output directory
-   --transpose TRANSPOSE  specify half tones of transposition
-   --disableCapoDropCorrection [DISABLECAPODROPCORRECTION] specify if automatic capo/drop correction should be disabled
-   --yes [YES]           accept all, skip all queries
+   --input INPUT         path of the default song input directory (default: "examples/")
+   --output OUTPUT       path of the default song output directory (default: "out/")
+   --transpose TRANSPOSE half tones of transposition (default: "0")
+   --disableCapoDropCorrection [DISABLECAPODROPCORRECTION]
+                         if automatic capo/drop correction should be disabled [if desired] (default: "NULL")
+   --yes [YES]           accept all, skip all queries (default: "NULL")
    ```
