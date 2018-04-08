@@ -48,10 +48,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song input directory',
+                        help='path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='specify the path of the default song output directory',
+                        help='path of the default song output directory',
                         default='out/')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
