@@ -101,6 +101,19 @@ def transpose(matchobj):
     print "+++ " + "(" + final + ")"
     return "(" + final + ")"
 
+class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
+
+    def _split_lines(self, text, width):
+        return text.splitlines()
+
+    def _get_help_string(self, action):
+        help = action.help
+        if '%(default)' not in action.help:
+            if action.default is not argparse.SUPPRESS:
+                defaulting_nargs = [argparse.OPTIONAL, argparse.ZERO_OR_MORE]
+                if action.option_strings or action.nargs in defaulting_nargs:
+                    help += ' (default: "%(default)s")'
+        return help
 
 if __name__ == '__main__':
 
@@ -108,19 +121,19 @@ if __name__ == '__main__':
     print("Welcome to song-directory-transpose")
     print("-----------------------------------")
 
-    parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(formatter_class = MyArgumentDefaultsHelpFormatter)
 
     parser.add_argument('--input',
-                        help='specify the path of the default song input directory',
+                        help='path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='specify the path of the default song output directory',
+                        help='path of the default song output directory',
                         default='out/')
     parser.add_argument('--transpose',
-                        help='specify half tones of transposition',
+                        help='half tones of transposition',
                         default='0')
     parser.add_argument('--disableCapoDropCorrection',
-                        help='specify if automatic capo/drop correction should be disabled',
+                        help='if automatic capo/drop correction should be disabled [if desired]',
                         nargs='?',
                         default='NULL')
     parser.add_argument('--yes',
