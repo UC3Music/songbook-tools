@@ -49,8 +49,8 @@ if __name__ == '__main__':
                         help='path of the default song input directory',
                         default='examples/')
     parser.add_argument('--output',
-                        help='name of the output pdf file [without extension]',
-                        default='songbook')
+                        help='name of the output pdf file',
+                        default='songbook.pdf')
     parser.add_argument('--template',
                         help='name of the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
@@ -73,8 +73,8 @@ if __name__ == '__main__':
     print("Will use song input directory: " + inputDirectory)
 
     # Query the path of the song input directory
-    outputFile = query("Please specify the name of the output pdf file [without extension]", args.output, skipQueries)
-    print("Will use the output pdf file [without extension]: " + outputFile)
+    outputFile = query("Please specify the name of the output pdf file", args.output, skipQueries)
+    print("Will use the output pdf file: " + outputFile)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
@@ -126,13 +126,14 @@ if __name__ == '__main__':
 
     s = s.replace("genSongbook",rep)
 
-    outName = outputFile + ".tex"
-    outFd = open(outName, 'w')
+    outputFileName, outputFileExtension = os.path.splitext(outputFile)
+    outFileTex = outputFileName + ".tex"
+    outFd = open(outFileTex, 'w')
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', outputFile])
-    pdftex_process = subprocess.call(['pdflatex', outputFile])
+    pdftex_process = subprocess.call(['pdflatex', outFileTex])
+    pdftex_process = subprocess.call(['pdflatex', outFileTex])
 
