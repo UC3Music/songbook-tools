@@ -56,7 +56,7 @@ if __name__ == '__main__':
     parser.add_argument('--inSymbol',
                         help='input symbol',
                         default='C')
-    parser.add_argument('--output',
+    parser.add_argument('--outSymbol',
                         help='output symbol',
                         default='Do')
     parser.add_argument('--yes',
