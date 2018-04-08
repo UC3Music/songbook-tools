@@ -40,7 +40,7 @@ if __name__ == '__main__':
                         help='specify the path of the default song (output) directory',
                         default='tmp')
     parser.add_argument('--yes',
-                        help='accept all, skip all queries',
+                        help='[optional] accept all, skip all queries',
                         nargs='?',
                         default='absent')  # required, see below
     args = parser.parse_args()
