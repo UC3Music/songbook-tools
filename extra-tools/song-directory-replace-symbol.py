@@ -45,10 +45,10 @@ def myReplacement(matchobj):
     #actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
     #print betweenParenthesis
-    final = betweenParenthesis
+    betweenParenthesis = re.sub(inputSymbol, outputSymbol, betweenParenthesis)
     # debug
-    print "+++ " + "(" + final + ")"
-    return "(" + final + ")"
+    print "+++ " + "(" + betweenParenthesis + ")"
+    return "(" + betweenParenthesis + ")"
 
 class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
 
