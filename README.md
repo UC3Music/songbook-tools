@@ -2,6 +2,15 @@
 
 Tools for minimally markuped songs, like LaTeX songbook generation and chord transposition.
 
+## Installation
+
+Install dependencies via `pip`:
+```bash
+pip install -r requirements.txt --user
+```
+
+## Contents and Usage
+
 - [examples/](examples/) - Directory with minimally markuped song examples.
 
 - [extra-tools/](extra-tools/) - Directory with extra tools.
@@ -25,9 +34,3 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
    --disableCapoDropCorrection [DISABLECAPODROPCORRECTION] [optional] specify if automatic capo/drop correction should be disabled
    --yes [YES]           [optional] accept all, skip all queries
    ```
-
-## Install dependencies
-
-```bash
-pip install -r requirements.txt --user
-```
