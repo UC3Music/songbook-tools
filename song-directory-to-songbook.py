@@ -35,16 +35,16 @@ if __name__ == '__main__':
                         help='specify the path of the default song (input) directory',
                         default='/home/yo/Dropbox/chords/0-GUITAR/english')
     parser.add_argument('--output',
-                        help='specify the (output) pdf file (without extension)',
+                        help='specify the (output) pdf file [without extension]',
                         default='songbook')
     parser.add_argument('--template',
-                        help='specify the template file',
+                        help='specify the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
     parser.add_argument('--manifest',
-                        help='(optional) specify the path of a file-avoiding manifest file',
+                        help='[optional] specify the path of a file-avoiding manifest file',
                         default='')
     parser.add_argument('--yes',
-                        help='(optional) accept all, skip all queries',
+                        help='[optional] accept all, skip all queries',
                         nargs='?',
                         default='absent')  # required, see below
     args = parser.parse_args()
@@ -59,11 +59,11 @@ if __name__ == '__main__':
     print("Will use song (input) directory: " + inputDirectory)
 
     # Query the path of the song (input) directory
-    outputFile = query("Please specify the (output) pdf file", args.output, skipQueries)
-    print("Will use song (input) directory: " + inputDirectory)
+    outputFile = query("Please specify the (output) pdf file [without extension]", args.output, skipQueries)
+    print("Will use the (output) pdf file [without extension]: " + outputFile)
 
     # Query the path of the template file
-    templateFile = query("Please specify the path of the template file", args.template, skipQueries)
+    templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
     # Query (optional) the path of a file-avoiding manifest file
