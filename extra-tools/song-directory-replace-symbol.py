@@ -16,6 +16,9 @@ import argparse
 
 import re
 
+inputSymbol = ''
+outputSymbol = ''
+
 def query(question, default, skipQuery=False):
     if skipQuery:
         return default
@@ -98,6 +101,12 @@ if __name__ == '__main__':
 
     # Query the path of the song output directory
     outputDirectory = query("Please specify the path of the song output directory", args.output, skipQueries)
+
+    # Query the input symbol
+    inputSymbol = query("Please specify the input symbol", args.inSymbol, skipQueries)
+
+    # Query the output symbol
+    outputSymbol = query("Please specify the output symbol", args.outSymbol, skipQueries)
 
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
