@@ -11,7 +11,7 @@
 - [song-directory-strip.py](song-directory-strip.py) - Given a directory composed by minimally markuped songs, strip from all the chords.
   ```
   -h, --help       show this help message and exit
-  --input INPUT    specify the path of the default song input directory
-  --output OUTPUT  specify the path of the default song output directory
-  --yes [YES]      accept all, skip all queries
+  --input INPUT    path of the default song input directory (default: "examples/")
+  --output OUTPUT  path of the default song output directory (default: "out/")
+  --yes [YES]      accept all, skip all queries (default: "NULL")
   ```
