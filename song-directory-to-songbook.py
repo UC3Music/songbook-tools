@@ -107,7 +107,7 @@ if __name__ == '__main__':
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
             songName = name.split(" - ")[-1]
-            rep += "\\index{{songIndex}}{" + songName + "}\n"
+            rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
             song = open( os.path.join(dirname, filename) )
             rep += song.read()
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     rep = rep.replace("[","\\textit{[")
     rep = rep.replace("]","]}")
 
-    rep = rep.replace("{{songIndex}}","[songIndex]")
+    rep = rep.replace("{{aux-song-index-file}}","[aux-song-index-file]")
 
     s = s.replace("genSongbook",rep)
 
