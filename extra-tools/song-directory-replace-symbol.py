@@ -53,6 +53,12 @@ if __name__ == '__main__':
     parser.add_argument('--output',
                         help='path of the default song output directory',
                         default='out/')
+    parser.add_argument('--inSymbol',
+                        help='input symbol',
+                        default='C')
+    parser.add_argument('--output',
+                        help='output symbol',
+                        default='Do')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
