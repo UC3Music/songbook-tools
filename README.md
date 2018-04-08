@@ -21,8 +21,8 @@ pip install -r requirements.txt --user
    --input INPUT        specify the path of the default song (input) directory
    --output OUTPUT      specify the (output) pdf file [without extension]
    --template TEMPLATE  specify the LaTeX template file [specifies language, etc]
-   --manifest MANIFEST  [optional] specify the path of a file-avoiding manifest file
-   --yes [YES]          [optional] accept all, skip all queries
+   --manifest MANIFEST  specify the path of a file-avoiding manifest file
+   --yes [YES]          accept all, skip all queries
    ```
 
 - [song-directory-transpose.py](song-directory-transpose.py) - Given a directory composed by minimally markuped songs, create a new directory with transposed chords (by number of semitones and/or capo/drop removal). Parameters (all optional, complementary to CLI queries):
@@ -31,6 +31,6 @@ pip install -r requirements.txt --user
    --input INPUT         specify the path of the default song (input) directory
    --output OUTPUT       specify the path of the default song (output) directory
    --transpose TRANSPOSE  specify half tones of transposition
-   --disableCapoDropCorrection [DISABLECAPODROPCORRECTION] [optional] specify if automatic capo/drop correction should be disabled
-   --yes [YES]           [optional] accept all, skip all queries
+   --disableCapoDropCorrection [DISABLECAPODROPCORRECTION] specify if automatic capo/drop correction should be disabled
+   --yes [YES]           accept all, skip all queries
    ```

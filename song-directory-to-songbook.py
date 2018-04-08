@@ -41,10 +41,10 @@ if __name__ == '__main__':
                         help='specify the LaTeX template file [specifies language, etc]',
                         default='template/english.tex')
     parser.add_argument('--manifest',
-                        help='[optional] specify the path of a file-avoiding manifest file',
+                        help='specify the path of a file-avoiding manifest file',
                         default='')
     parser.add_argument('--yes',
-                        help='[optional] accept all, skip all queries',
+                        help='accept all, skip all queries',
                         nargs='?',
                         default='absent')  # required, see below
     args = parser.parse_args()
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     print("Will use template file: " + templateFile)
 
     # Query (optional) the path of a file-avoiding manifest file
-    manifestFile = query("[optional] Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
+    manifestFile = query("Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
     if manifestFile == "":
         print("Not using file-avoiding manifest file.")
     else:
