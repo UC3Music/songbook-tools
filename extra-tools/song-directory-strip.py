@@ -35,10 +35,10 @@ if __name__ == '__main__':
 
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
-                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+                        default='examples/')
     parser.add_argument('--output',
                         help='specify the path of the default song (output) directory',
-                        default='tmp')
+                        default='out/')
     parser.add_argument('--yes',
                         help='[optional] accept all, skip all queries',
                         nargs='?',

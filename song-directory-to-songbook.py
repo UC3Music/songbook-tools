@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--input',
                         help='specify the path of the default song (input) directory',
-                        default='/home/yo/Dropbox/chords/0-GUITAR/english')
+                        default='examples/')
     parser.add_argument('--output',
                         help='specify the (output) pdf file [without extension]',
                         default='songbook')
