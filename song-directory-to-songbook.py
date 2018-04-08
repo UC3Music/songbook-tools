@@ -127,13 +127,21 @@ if __name__ == '__main__':
     s = s.replace("genSongbook",rep)
 
     outputFileName, outputFileExtension = os.path.splitext(outputFile)
-    outFileTex = outputFileName + ".tex"
-    outFd = open(outFileTex, 'w')
+    outputFileTex = outputFileName + ".tex"
+    outFd = open(outputFileTex, 'w')
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', outFileTex])
-    pdftex_process = subprocess.call(['pdflatex', outFileTex])
+    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
+    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
+    os.remove("aux-song-index-file.idx")
+    os.remove("aux-song-index-file.ilg")
+    os.remove("aux-song-index-file.ind")
+    os.remove(outputFileName + ".aux")
+    os.remove(outputFileName + ".log")
+    os.remove(outputFileName + ".out")
+    os.remove(outputFileName + ".toc")
 
+    os.remove(outputFileTex)  # may be interested in keeping
