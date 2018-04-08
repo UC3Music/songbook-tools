@@ -122,15 +122,15 @@ if __name__ == '__main__':
     parser.add_argument('--disableCapoDropCorrection',
                         help='specify if automatic capo/drop correction should be disabled',
                         nargs='?',
-                        default='absent')
+                        default='NULL')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
-                        default='absent')  # required, see below
+                        default='NULL')  # required, see below
     args = parser.parse_args()
 
     skipQueries = False
-    if args.yes is not 'absent':  # if exists and no contents, replaces 'absent' by None
+    if args.yes is not 'NULL':  # if exists and no contents, replaces 'NULL' by None
         print("Detected --yes parameter: will skip queries")
         skipQueries = True
 
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     # Query capoDropCorrection
     defaultApplyCapoDropCorrection = 'yes'
-    if args.disableCapoDropCorrection is not 'absent':
+    if args.disableCapoDropCorrection is not 'NULL':
         defaultApplyCapoDropCorrection = 'no'
 
     while True:
