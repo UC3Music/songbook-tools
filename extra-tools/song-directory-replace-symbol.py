@@ -25,6 +25,28 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
+def myReplacement(matchobj):
+    # debug
+    print "--- " + matchobj.group(0)
+    #exceptions:
+    if matchobj.group(0).find("capo") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("drop") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("bpm") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(all") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(mute)") != -1:
+        return matchobj.group(0)
+    #actual process:
+    betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
+    #print betweenParenthesis
+    final = betweenParenthesis
+    # debug
+    print "+++ " + "(" + final + ")"
+    return "(" + final + ")"
+
 class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
 
     def _split_lines(self, text, width):
@@ -100,7 +122,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
-            contents = re.sub("\([^)]*\)", '', contents)
+            contents = re.sub("\([^)]*\)", myReplacement, contents)
             songOut.write(contents)
             songOut.close()
             songIn.close()
