@@ -4,7 +4,8 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
 
 - [examples/](examples/) - Directory with minimally markuped song examples.
 
-- [song-directory-to-songbook.py](song-directory-to-songbook.py) - Given a directory composed by minimally markuped songs, generate a pdf songbook via LaTeX
+- [song-directory-to-songbook.py](song-directory-to-songbook.py)
+   Given a directory composed by minimally markuped songs, generate a pdf songbook via LaTeX. Parameters (in addition to CLI):
    ```
    --input INPUT        specify the path of the default song (input) directory
    --output OUTPUT      specify the (output) pdf file (without extension)
