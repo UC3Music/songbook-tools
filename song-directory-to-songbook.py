@@ -42,7 +42,7 @@ if __name__ == '__main__':
                         help='specify the path of the template file',
                         default='template/english.tex')
     parser.add_argument('--manifest',
-                        help='(optional) specify the path of the template file',
+                        help='(optional) specify the path of a file-avoiding manifest file',
                         default='')
     args = parser.parse_args()
 
@@ -55,16 +55,16 @@ if __name__ == '__main__':
     inputDirectory = query("Please specify the path of the song (input) directory", args.input, skipQueries)
     print("Will use song (input) directory: " + inputDirectory)
 
-    # Query template file path string
+    # Query the path of the template file
     templateFile = query("Please specify the path of the template file", args.template, skipQueries)
     print("Will use template file: " + templateFile)
 
-    # Query optional avoiding-manifest file path string
-    manifestFile = query("(optional) Please specify the path of a avoiding-manifest file", args.manifest, skipQueries)
+    # Query (optional) the path of a file-avoiding manifest file
+    manifestFile = query("(optional) Please specify the path of a file-avoiding manifest file", args.manifest, skipQueries)
     if manifestFile == "":
-        print("Not using avoiding-manifest file.")
+        print("Not using file-avoiding manifest file.")
     else:
-        print("Will use avoiding-manifest file: " + manifestFile)
+        print("Will use file-avoiding manifest file: " + manifestFile)
         manifestFileFd = open(manifestFile, 'r')
         manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
         manifestFileFd.close()
