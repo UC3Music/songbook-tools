@@ -9,7 +9,7 @@ Tools for minimally markuped songs, like LaTeX songbook generation and chord tra
    -h, --help           show this help message and exit
    --input INPUT        specify the path of the default song (input) directory
    --output OUTPUT      specify the (output) pdf file [without extension]
-   --template TEMPLATE  specify the template file
+   --template TEMPLATE  specify the LaTeX template file [specifies language, etc]
    --manifest MANIFEST  [optional] specify the path of a file-avoiding manifest file
    --yes [YES]          [optional] accept all, skip all queries
    ```
