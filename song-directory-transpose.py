@@ -132,10 +132,9 @@ if __name__ == '__main__':
     parser.add_argument('--transpose',
                         help='half tones of transposition',
                         default='0')
-    parser.add_argument('--disableCapoDropCorrection',
-                        help='if automatic capo/drop correction should be disabled [if desired]',
-                        nargs='?',
-                        default='NULL')
+    parser.add_argument('--capoDropCorrection',
+                        help='if automatic capo/drop correction should be applied',
+                        default='no')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
@@ -170,12 +169,8 @@ if __name__ == '__main__':
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
     # Query capoDropCorrection
-    defaultApplyCapoDropCorrection = 'yes'
-    if args.disableCapoDropCorrection is not 'NULL':
-        defaultApplyCapoDropCorrection = 'no'
-
     while True:
-        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?', defaultApplyCapoDropCorrection, skipQueries)
+        yesNo = query('Apply capo/drop correction (answer with "y"/"yes" or "n"/"no" without quotes)?', args.capoDropCorrection, skipQueries)
         if yesNo == "yes" or yesNo == "y":
             print("Will apply capo/drop correction")
             applyCapoDropCorrection = True
