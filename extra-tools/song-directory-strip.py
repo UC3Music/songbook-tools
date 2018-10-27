@@ -94,7 +94,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
-            contents = re.sub("\([^)]*\)", '', contents)
+            contents = re.sub("\([^)]*\)", '', contents) # line that really does it
             songOut.write(contents)
             songOut.close()
             songIn.close()
