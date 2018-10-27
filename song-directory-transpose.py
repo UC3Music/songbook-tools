@@ -202,8 +202,8 @@ if __name__ == '__main__':
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = ""
             if globalHalfTones != 0:
-                contents += "(all chords have been transposed " + str(globalHalfTones) + " semitones, apart from other corrections)" + os.linesep  + os.linesep
-                print "+++ (all chords have been transposed " + str(globalHalfTones) + " semitones, apart from other corrections)"
+                contents += "(all chords pre-transposed " + str(globalHalfTones) + " semitones)" + os.linesep  + os.linesep
+                print "+++ (all chords pre-transposed " + str(globalHalfTones) + " semitones)"
             contents += songIn.read()
             contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
