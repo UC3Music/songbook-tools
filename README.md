@@ -32,6 +32,6 @@ pip install -r requirements.txt --user
    --output OUTPUT       path of the default song output directory (default: "out/")
    --transpose TRANSPOSE half tones of transposition (default: "0")
    --capoDropCorrection CAPODROPCORRECTION
-                         if automatic capo/drop correction should be applied (default: "no")
+                         if automatic capo/drop correction should be applied (default: "yes")
    --yes [YES]           accept all, skip all queries (default: "NULL")
    ```

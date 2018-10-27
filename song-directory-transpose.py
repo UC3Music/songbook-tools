@@ -134,7 +134,7 @@ if __name__ == '__main__':
                         default='0')
     parser.add_argument('--capoDropCorrection',
                         help='if automatic capo/drop correction should be applied',
-                        default='no')
+                        default='yes')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
