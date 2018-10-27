@@ -87,7 +87,7 @@ def transpose(matchobj):
             songHalfTones -= int(got[0])
             print '*** new songHalfTones:',songHalfTones
         return matchobj.group(0)
-    if matchobj.group(0).find("bpm") != -1:
+    if matchobj.group(0).find("bpm)") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
