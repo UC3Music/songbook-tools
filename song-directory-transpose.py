@@ -64,7 +64,12 @@ def transpose(matchobj):
     global songHalfTones
     # Print for debugging purposes: what is being treated
     print "--- " + matchobj.group(0)
-    # Treat exceptions we just skip and return
+    # Treat exceptions that are simply skipped and return
+    if matchobj.group(0).find("bpm)") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(all") != -1:
+        return matchobj.group(0)
+    # Treat exceptions that affect songHalfTones and return
     if matchobj.group(0).find("capo") != -1:
         if applyCapoDropCorrection:
             m = matchobj.group(0)
@@ -86,10 +91,6 @@ def transpose(matchobj):
             print '*** drop:',int(got[0])
             songHalfTones -= int(got[0])
             print '*** new songHalfTones:',songHalfTones
-        return matchobj.group(0)
-    if matchobj.group(0).find("bpm)") != -1:
-        return matchobj.group(0)
-    if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
     # Get betweenParenthesis and call actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
