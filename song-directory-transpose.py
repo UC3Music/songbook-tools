@@ -82,8 +82,8 @@ def transpose(matchobj):
             print '*** new songHalfTones:',songHalfTones
             # Print for debugging purposes: info on modification and original source
             betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-            print "+++ (chords for no capo; generated from original " + betweenParenthesis + ")"
-            return "(chords for no capo; generated from original " + betweenParenthesis + ")"
+            print "+++ (chords for no capo; generated from " + betweenParenthesis + ")"
+            return "(chords for no capo; generated from " + betweenParenthesis + ")"
         else:
             return matchobj.group(0)
     # Treat exception that affects songHalfTones and returns: drop
@@ -99,8 +99,8 @@ def transpose(matchobj):
             print '*** new songHalfTones:',songHalfTones
             # Print for debugging purposes: info on modification and original source
             betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-            print "+++ (chords for no drop; generated from original " + betweenParenthesis + ")"
-            return "(chords for no drop; generated from original " + betweenParenthesis + ")"
+            print "+++ (chords for no drop; generated from " + betweenParenthesis + ")"
+            return "(chords for no drop; generated from " + betweenParenthesis + ")"
         else:
             return matchobj.group(0)
     # Get betweenParenthesis and call actual process:
