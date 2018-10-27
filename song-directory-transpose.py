@@ -32,7 +32,7 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
-def process( stringToProcess, processed):
+def recursivelyProcessBlockWithParenthesisAndExceptionsTreated( stringToProcess, processed):
     global songHalfTones
     #print 'String to process "' + stringToProcess + '".'
     afterSplit = re.split("  |_|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
@@ -58,9 +58,9 @@ def process( stringToProcess, processed):
     processed += delimiterWas
     #print '* Processed after delimiter "' + processed + '".'
     #print '* Still must process "' + afterSplit[1] + '".'
-    return process( afterSplit[1], processed )
+    return recursivelyProcessBlockWithParenthesisAndExceptionsTreated( afterSplit[1], processed )
 
-def transpose(matchobj):
+def processBlockWithParenthesis(matchobj):
     global songHalfTones
     # Print for debugging purposes: what is being treated
     print "--- " + matchobj.group(0)
@@ -105,7 +105,7 @@ def transpose(matchobj):
             return matchobj.group(0)
     # Get betweenParenthesis and call actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-    final = process( betweenParenthesis, "" )
+    final = recursivelyProcessBlockWithParenthesisAndExceptionsTreated( betweenParenthesis, "" )
     # Print for debugging purposes: final after processing betweenParenthesis
     print "+++ " + "(" + final + ")"
     return "(" + final + ")"
@@ -201,7 +201,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
-            contents = re.sub("\([^)]*\)", transpose, contents) # line that really does it
+            contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
             songOut.close()
             songIn.close()

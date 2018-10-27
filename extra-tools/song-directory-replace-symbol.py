@@ -28,7 +28,7 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
-def myReplacement(matchobj):
+def processBlockWithParenthesis(matchobj):
     # Print for debugging purposes: what is being treated
     print "--- " + matchobj.group(0)
     #Treat exceptions that are simply skipped and return
@@ -130,7 +130,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
-            contents = re.sub("\([^)]*\)", myReplacement, contents) # line that really does it
+            contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
             songOut.close()
             songIn.close()
