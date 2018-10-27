@@ -62,9 +62,9 @@ def process( stringToProcess, processed):
 
 def transpose(matchobj):
     global songHalfTones
-    # debug
+    # Print for debugging purposes: what is being treated
     print "--- " + matchobj.group(0)
-    #exceptions:
+    # Treat exceptions we just skip and return
     if matchobj.group(0).find("capo") != -1:
         if applyCapoDropCorrection:
             m = matchobj.group(0)
@@ -91,11 +91,10 @@ def transpose(matchobj):
         return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
-    #actual process:
+    # Get betweenParenthesis and call actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-    #print betweenParenthesis
     final = process( betweenParenthesis, "" )
-    # debug
+    # Print for debugging purposes: final after processing betweenParenthesis
     print "+++ " + "(" + final + ")"
     return "(" + final + ")"
 
