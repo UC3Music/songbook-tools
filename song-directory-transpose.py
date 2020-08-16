@@ -34,19 +34,19 @@ def query(question, default, skipQuery=False):
 
 def recursivelyProcessBlockWithParenthesisAndExceptionsTreated( stringToProcess, processed):
     global songHalfTones
-    #print 'String to process "' + stringToProcess + '".'
+    #print('String to process "' + stringToProcess + '".')
     afterSplit = re.split("  |_|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
-    #print '* Split by delimiters "' + str(afterSplit) + '".'
-    #print 'songHalfTones:',songHalfTones
+    #print('* Split by delimiters "' + str(afterSplit) + '".')
+    #print('songHalfTones:',songHalfTones)
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
-        #print '* Extracted "' + chord.chord + '" chord.'
+        #print('* Extracted "' + chord.chord + '" chord.')
         chord.transpose( songHalfTones, "C#" )
-        #print '* Transposed to "' + chord.chord + '" chord.'
+        #print('* Transposed to "' + chord.chord + '" chord.')
         processed += chord.chord
-        #print '* Processed after chord "' + processed + '".'
+        #print('* Processed after chord "' + processed + '".')
     #else:
-        #print '* No chord to extract.'
+        #print('* No chord to extract.')
     if len(afterSplit) == 1:
         return processed
     delimiterWas = ''
@@ -54,16 +54,16 @@ def recursivelyProcessBlockWithParenthesisAndExceptionsTreated( stringToProcess,
         delimiterWas = stringToProcess[len(afterSplit[0]):]
     else:
         delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    #print '* Delimiter was "' + delimiterWas + '".'
+    #print('* Delimiter was "' + delimiterWas + '".')
     processed += delimiterWas
-    #print '* Processed after delimiter "' + processed + '".'
-    #print '* Still must process "' + afterSplit[1] + '".'
+    #print('* Processed after delimiter "' + processed + '".')
+    #print('* Still must process "' + afterSplit[1] + '".')
     return recursivelyProcessBlockWithParenthesisAndExceptionsTreated( afterSplit[1], processed )
 
 def processBlockWithParenthesis(matchobj):
     global songHalfTones
     # Print for debugging purposes: what is being treated
-    print "--- " + matchobj.group(0)
+    print("--- " + matchobj.group(0))
     # Treat exceptions that are simply skipped and return
     if matchobj.group(0).find("bpm)") != -1:
         return matchobj.group(0)
@@ -75,14 +75,14 @@ def processBlockWithParenthesis(matchobj):
             m = matchobj.group(0)
             got = re.findall('\d+', m)
             if len(got) != 1:
-                print '*** ERROR (len(got) != 1)'
+                print('*** ERROR (len(got) != 1)')
                 quit()
-            print '*** capo:',int(got[0])
+            print('*** capo:',int(got[0]))
             songHalfTones += int(got[0])
-            print '*** new songHalfTones:',songHalfTones
+            print('*** new songHalfTones:',songHalfTones)
             # Print for debugging purposes: info on modification and original source
             betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-            print "+++ (chords for no capo; generated from " + betweenParenthesis + ")"
+            print("+++ (chords for no capo; generated from " + betweenParenthesis + ")")
             return "(chords for no capo; generated from " + betweenParenthesis + ")"
         else:
             return matchobj.group(0)
@@ -92,14 +92,14 @@ def processBlockWithParenthesis(matchobj):
             m = matchobj.group(0)
             got = re.findall('\d+', m)
             if len(got) != 1:
-                print '*** ERROR (len(got) != 1)'
+                print('*** ERROR (len(got) != 1)')
                 quit()
-            print '*** drop:',int(got[0])
+            print('*** drop:',int(got[0]))
             songHalfTones -= int(got[0])
-            print '*** new songHalfTones:',songHalfTones
+            print('*** new songHalfTones:',songHalfTones)
             # Print for debugging purposes: info on modification and original source
             betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-            print "+++ (chords for no drop; generated from " + betweenParenthesis + ")"
+            print("+++ (chords for no drop; generated from " + betweenParenthesis + ")")
             return "(chords for no drop; generated from " + betweenParenthesis + ")"
         else:
             return matchobj.group(0)
@@ -107,7 +107,7 @@ def processBlockWithParenthesis(matchobj):
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
     final = recursivelyProcessBlockWithParenthesisAndExceptionsTreated( betweenParenthesis, "" )
     # Print for debugging purposes: final after processing betweenParenthesis
-    print "+++ " + "(" + final + ")"
+    print("+++ " + "(" + final + ")")
     return "(" + final + ")"
 
 class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
@@ -195,15 +195,15 @@ if __name__ == '__main__':
         for filename in sorted(filenames):
             songHalfTones = globalHalfTones
             #debug
-            print filename
-            print '*** songHalfTones:',songHalfTones
+            print(filename)
+            print('*** songHalfTones:',songHalfTones)
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = ""
             if globalHalfTones != 0:
                 contents += "(all chords have been pre-transposed " + str(globalHalfTones) + " semitones)" + os.linesep  + os.linesep
-                print "+++ (all chords have been pre-transposed " + str(globalHalfTones) + " semitones)"
+                print("+++ (all chords have been pre-transposed " + str(globalHalfTones) + " semitones)")
             contents += songIn.read()
             contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
