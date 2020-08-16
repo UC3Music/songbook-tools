@@ -103,7 +103,7 @@ if __name__ == '__main__':
             name, extension = os.path.splitext(filename)
             if manifestFile != "":
                 if manifestMmap.find(name) != -1:
-                    print "Skipping:", name
+                    print("Skipping:", name)
                     continue
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
