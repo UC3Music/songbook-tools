@@ -74,7 +74,7 @@ if __name__ == '__main__':
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
-            print "Ok, bye!"
+            print("Ok, bye!")
             quit()
         else:
             print("Will use (existing) song output directory: " + outputDirectory)
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             #debug
-            print filename
+            print(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
