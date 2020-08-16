@@ -111,7 +111,8 @@ if __name__ == '__main__':
             #-- We cannot use [] yet (they will be replaced because choir), so use {{}}.
             rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
-            song = open( os.path.join(dirname, filename) )
+            print("os.path.join(dirname, filename)",os.path.join(dirname, filename))
+            song = open(os.path.join(dirname, filename), encoding="utf8")
             rep += song.read()
             song.close()
             rep += "\\end{alltt}\n"
