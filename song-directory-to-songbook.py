@@ -18,7 +18,7 @@ def query(question, default, skipQuery=False):
     if skipQuery:
         return default
     sys.stdout.write(question + " [" + default + "] ? ")
-    choice = raw_input()
+    choice = input()
     if choice == '':
         return default
     return choice
@@ -103,7 +103,7 @@ if __name__ == '__main__':
             name, extension = os.path.splitext(filename)
             if manifestFile != "":
                 if manifestMmap.find(name) != -1:
-                    print "Skipping:", name
+                    print("Skipping:", name)
                     continue
             rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
             rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
@@ -111,7 +111,8 @@ if __name__ == '__main__':
             #-- We cannot use [] yet (they will be replaced because choir), so use {{}}.
             rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
             rep += "\\begin{alltt}\n"
-            song = open( os.path.join(dirname, filename) )
+            print("os.path.join(dirname, filename)",os.path.join(dirname, filename))
+            song = open(os.path.join(dirname, filename), encoding="utf8")
             rep += song.read()
             song.close()
             rep += "\\end{alltt}\n"

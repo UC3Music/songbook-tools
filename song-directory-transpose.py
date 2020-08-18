@@ -32,21 +32,21 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
-def process( stringToProcess, processed):
+def recursivelyProcessBlockWithParenthesisAndExceptionsTreated( stringToProcess, processed):
     global songHalfTones
-    #print 'String to process "' + stringToProcess + '".'
+    #print('String to process "' + stringToProcess + '".')
     afterSplit = re.split("  |_|!|\.\.\.|\.\.|: |\*|high|open|bass|riff|palm mute|notes|m6|madd11/|m7add11/|7sus2|8|m7b5|madd13|add13", stringToProcess, 1)  # 3rd parameter is maxsplit # Also works with single space, do this to catch faulty txt.
-    #print '* Split by delimiters "' + str(afterSplit) + '".'
-    #print 'songHalfTones:',songHalfTones
+    #print('* Split by delimiters "' + str(afterSplit) + '".')
+    #print('songHalfTones:',songHalfTones)
     if len(afterSplit[0]) != 0:
         chord = Chord(afterSplit[0])
-        #print '* Extracted "' + chord.chord + '" chord.'
+        #print('* Extracted "' + chord.chord + '" chord.')
         chord.transpose( songHalfTones, "C#" )
-        #print '* Transposed to "' + chord.chord + '" chord.'
+        #print('* Transposed to "' + chord.chord + '" chord.')
         processed += chord.chord
-        #print '* Processed after chord "' + processed + '".'
+        #print('* Processed after chord "' + processed + '".')
     #else:
-        #print '* No chord to extract.'
+        #print('* No chord to extract.')
     if len(afterSplit) == 1:
         return processed
     delimiterWas = ''
@@ -54,51 +54,60 @@ def process( stringToProcess, processed):
         delimiterWas = stringToProcess[len(afterSplit[0]):]
     else:
         delimiterWas = stringToProcess[len(afterSplit[0]):-len(afterSplit[1])]
-    #print '* Delimiter was "' + delimiterWas + '".'
+    #print('* Delimiter was "' + delimiterWas + '".')
     processed += delimiterWas
-    #print '* Processed after delimiter "' + processed + '".'
-    #print '* Still must process "' + afterSplit[1] + '".'
-    return process( afterSplit[1], processed )
+    #print('* Processed after delimiter "' + processed + '".')
+    #print('* Still must process "' + afterSplit[1] + '".')
+    return recursivelyProcessBlockWithParenthesisAndExceptionsTreated( afterSplit[1], processed )
 
-def transpose(matchobj):
+def processBlockWithParenthesis(matchobj):
     global songHalfTones
-    # debug
-    print "--- " + matchobj.group(0)
-    #exceptions:
+    # Print for debugging purposes: what is being treated
+    print("--- " + matchobj.group(0))
+    # Treat exceptions that are simply skipped and return
+    if matchobj.group(0).find("bpm)") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(all") != -1:
+        return matchobj.group(0)
+    # Treat exception that affects songHalfTones and returns: capo
     if matchobj.group(0).find("capo") != -1:
         if applyCapoDropCorrection:
             m = matchobj.group(0)
             got = re.findall('\d+', m)
             if len(got) != 1:
-                print '*** ERROR (len(got) != 1)'
+                print('*** ERROR (len(got) != 1)')
                 quit()
-            print '*** capo:',int(got[0])
+            print('*** capo:',int(got[0]))
             songHalfTones += int(got[0])
-            print '*** new songHalfTones:',songHalfTones
-        return matchobj.group(0)
+            print('*** new songHalfTones:',songHalfTones)
+            # Print for debugging purposes: info on modification and original source
+            betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
+            print("+++ (chords for no capo; generated from " + betweenParenthesis + ")")
+            return "(chords for no capo; generated from " + betweenParenthesis + ")"
+        else:
+            return matchobj.group(0)
+    # Treat exception that affects songHalfTones and returns: drop
     if matchobj.group(0).find("drop") != -1:
         if applyCapoDropCorrection:
             m = matchobj.group(0)
             got = re.findall('\d+', m)
             if len(got) != 1:
-                print '*** ERROR (len(got) != 1)'
+                print('*** ERROR (len(got) != 1)')
                 quit()
-            print '*** drop:',int(got[0])
+            print('*** drop:',int(got[0]))
             songHalfTones -= int(got[0])
-            print '*** new songHalfTones:',songHalfTones
-        return matchobj.group(0)
-    if matchobj.group(0).find("bpm") != -1:
-        return matchobj.group(0)
-    if matchobj.group(0).find("(all") != -1:
-        return matchobj.group(0)
-    if matchobj.group(0).find("(mute)") != -1:
-        return matchobj.group(0)
-    #actual process:
+            print('*** new songHalfTones:',songHalfTones)
+            # Print for debugging purposes: info on modification and original source
+            betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
+            print("+++ (chords for no drop; generated from " + betweenParenthesis + ")")
+            return "(chords for no drop; generated from " + betweenParenthesis + ")"
+        else:
+            return matchobj.group(0)
+    # Get betweenParenthesis and call actual process:
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-    #print betweenParenthesis
-    final = process( betweenParenthesis, "" )
-    # debug
-    print "+++ " + "(" + final + ")"
+    final = recursivelyProcessBlockWithParenthesisAndExceptionsTreated( betweenParenthesis, "" )
+    # Print for debugging purposes: final after processing betweenParenthesis
+    print("+++ " + "(" + final + ")")
     return "(" + final + ")"
 
 class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
@@ -132,10 +141,9 @@ if __name__ == '__main__':
     parser.add_argument('--transpose',
                         help='half tones of transposition',
                         default='0')
-    parser.add_argument('--disableCapoDropCorrection',
-                        help='if automatic capo/drop correction should be disabled [if desired]',
-                        nargs='?',
-                        default='NULL')
+    parser.add_argument('--capoDropCorrection',
+                        help='if automatic capo/drop correction should be applied',
+                        default='yes')
     parser.add_argument('--yes',
                         help='accept all, skip all queries',
                         nargs='?',
@@ -157,7 +165,7 @@ if __name__ == '__main__':
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
-            print "Ok, bye!"
+            print("Ok, bye!")
             quit()
         else:
             print("Will use (existing) song output directory: " + outputDirectory)
@@ -170,12 +178,8 @@ if __name__ == '__main__':
     print("Will use half tones of transposition: " + str(globalHalfTones))
 
     # Query capoDropCorrection
-    defaultApplyCapoDropCorrection = 'yes'
-    if args.disableCapoDropCorrection is not 'NULL':
-        defaultApplyCapoDropCorrection = 'no'
-
     while True:
-        yesNo = query('Apply capo/drop correction (confirm with "y" or "yes" without quotes)?', defaultApplyCapoDropCorrection, skipQueries)
+        yesNo = query('Apply capo/drop correction (answer with "y"/"yes" or "n"/"no" without quotes)?', args.capoDropCorrection, skipQueries)
         if yesNo == "yes" or yesNo == "y":
             print("Will apply capo/drop correction")
             applyCapoDropCorrection = True
@@ -191,13 +195,17 @@ if __name__ == '__main__':
         for filename in sorted(filenames):
             songHalfTones = globalHalfTones
             #debug
-            print filename
-            print '*** songHalfTones:',songHalfTones
+            print(filename)
+            print('*** songHalfTones:',songHalfTones)
             name, extension = os.path.splitext(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
-            contents = songIn.read()
-            contents = re.sub("\([^)]*\)", transpose, contents)
+            contents = ""
+            if globalHalfTones != 0:
+                contents += "(all chords have been pre-transposed " + str(globalHalfTones) + " semitones)" + os.linesep  + os.linesep
+                print("+++ (all chords have been pre-transposed " + str(globalHalfTones) + " semitones)")
+            contents += songIn.read()
+            contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
             songOut.close()
             songIn.close()

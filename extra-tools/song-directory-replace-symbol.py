@@ -28,26 +28,25 @@ def query(question, default, skipQuery=False):
         return default
     return choice
 
-def myReplacement(matchobj):
-    # debug
+def processBlockWithParenthesis(matchobj):
+    # Print for debugging purposes: what is being treated
     print "--- " + matchobj.group(0)
-    #exceptions:
+    #Treat exceptions that are simply skipped and return
     if matchobj.group(0).find("capo") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("drop") != -1:
         return matchobj.group(0)
-    if matchobj.group(0).find("bpm") != -1:
+    if matchobj.group(0).find("bpm)") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
-    if matchobj.group(0).find("(mute)") != -1:
-        return matchobj.group(0)
-    #actual process:
+    # Remove parenthesis
     betweenParenthesis = matchobj.group(0).replace("(","").replace(")","")
-    #print betweenParenthesis
+    # Actual process
     betweenParenthesis = re.sub(inputSymbol, outputSymbol, betweenParenthesis)
-    # debug
+    # Print for debugging purposes
     print "+++ " + "(" + betweenParenthesis + ")"
+    # Return with parenthesis
     return "(" + betweenParenthesis + ")"
 
 class MyArgumentDefaultsHelpFormatter(argparse.HelpFormatter):
@@ -131,7 +130,7 @@ if __name__ == '__main__':
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()
-            contents = re.sub("\([^)]*\)", myReplacement, contents)
+            contents = re.sub("\([^)]*\)", processBlockWithParenthesis, contents) # line that really does it
             songOut.write(contents)
             songOut.close()
             songIn.close()
