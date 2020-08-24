@@ -87,13 +87,13 @@ if __name__ == '__main__':
         print("Not using file-avoiding manifest file.")
     else:
         print("Will use file-avoiding manifest file: " + manifestFile)
-        manifestFileFd = open(manifestFile, 'r')
+        manifestFileFd = open(manifestFile, 'r', encoding="utf8")
         manifestMmap = mmap.mmap(manifestFileFd.fileno(), 0, access=mmap.ACCESS_READ)
         manifestFileFd.close()
 
     print("----------------------")
 
-    templateFileFd = open(templateFile, 'r')
+    templateFileFd = open(templateFile, 'r', encoding="utf8")
     s = templateFileFd.read()
     #sys.stdout.write(s)  #-- Screen output for debugging.
 
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     s = s.replace("genSongbook",rep)
 
     outputFileTex = outputFileName + ".tex"
-    outFd = open(outputFileTex, 'w')
+    outFd = open(outputFileTex, 'w', encoding="utf8")
     outFd.write(s)
     outFd.close()
 

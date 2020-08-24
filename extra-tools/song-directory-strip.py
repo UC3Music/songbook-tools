@@ -91,8 +91,8 @@ if __name__ == '__main__':
         for filename in sorted(filenames):
             #debug
             print(filename)
-            songIn = open( os.path.join(dirname, filename) )
-            songOut = open(os.path.join(outputDirectory, filename), "w")
+            songIn = open( os.path.join(dirname, filename), encoding="utf8" )
+            songOut = open(os.path.join(outputDirectory, filename), "w", encoding="utf8")
             contents = songIn.read()
             contents = re.sub("\([^)]*\)", '', contents) # line that really does it
             songOut.write(contents)

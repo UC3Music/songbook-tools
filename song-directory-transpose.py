@@ -198,8 +198,8 @@ if __name__ == '__main__':
             print(filename)
             print('*** songHalfTones:',songHalfTones)
             name, extension = os.path.splitext(filename)
-            songIn = open( os.path.join(dirname, filename) )
-            songOut = open(os.path.join(outputDirectory, filename), "w")
+            songIn = open( os.path.join(dirname, filename), encoding="utf8" )
+            songOut = open(os.path.join(outputDirectory, filename), "w", encoding="utf8")
             contents = ""
             if globalHalfTones != 0:
                 contents += "(all chords have been pre-transposed " + str(globalHalfTones) + " semitones)" + os.linesep  + os.linesep

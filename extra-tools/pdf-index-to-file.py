@@ -80,7 +80,7 @@ if __name__ == '__main__':
     # Query output string
     manifest = query("Please specify the name of the output txt file", args.output, skipQueries)
     print("Will extract manifest to file: " + manifest)
-    manifestFd = open(manifest, 'a')
+    manifestFd = open(manifest, 'a', encoding="utf8")
 
     uri = ("file:///"+path_to_pdf)
     doc = poppler.document_new_from_file(uri, None)
