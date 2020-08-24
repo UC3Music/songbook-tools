@@ -23,7 +23,7 @@ def query(question, default, skipQuery=False):
     if skipQuery:
         return default
     sys.stdout.write(question + " [" + default + "] ? ")
-    choice = raw_input()
+    choice = input()
     if choice == '':
         return default
     return choice
