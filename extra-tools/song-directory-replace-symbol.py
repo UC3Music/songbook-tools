@@ -30,7 +30,7 @@ def query(question, default, skipQuery=False):
 
 def processBlockWithParenthesis(matchobj):
     # Print for debugging purposes: what is being treated
-    print "--- " + matchobj.group(0)
+    print("--- " + matchobj.group(0))
     #Treat exceptions that are simply skipped and return
     if matchobj.group(0).find("capo") != -1:
         return matchobj.group(0)
@@ -45,7 +45,7 @@ def processBlockWithParenthesis(matchobj):
     # Actual process
     betweenParenthesis = re.sub(inputSymbol, outputSymbol, betweenParenthesis)
     # Print for debugging purposes
-    print "+++ " + "(" + betweenParenthesis + ")"
+    print("+++ " + "(" + betweenParenthesis + ")")
     # Return with parenthesis
     return "(" + betweenParenthesis + ")"
 
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     if os.path.isdir(outputDirectory):
         yesNo = query('Path "' + outputDirectory + '" already exists, are you sure (confirm with "y" or "yes" without quotes)', 'yes', skipQueries)
         if yesNo != "yes" and yesNo != "y":
-            print "Ok, bye!"
+            print("Ok, bye!")
             quit()
         else:
             print("Will use (existing) song output directory: " + outputDirectory)
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     for dirname, dirnames, filenames in os.walk(inputDirectory):
         for filename in sorted(filenames):
             #debug
-            print filename
+            print(filename)
             songIn = open( os.path.join(dirname, filename) )
             songOut = open(os.path.join(outputDirectory, filename), "w")
             contents = songIn.read()

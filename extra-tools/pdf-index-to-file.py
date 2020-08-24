@@ -26,7 +26,7 @@ def walk_index(manifestFd,iterp, doc):
     while iterp.next():
       link=iterp.get_action()
       s = doc.find_dest(link.dest.named_dest)
-      print link.title #,' ', doc.get_page(s.page_num).get_label()
+      print(link.title) #,' ', doc.get_page(s.page_num).get_label()
       manifestFd.write(link.title + '\n')
       child = iterp.get_child()
       if child:
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     iterp = poppler.IndexIter(doc)
     link = iterp.get_action()
     s = doc.find_dest(link.dest.named_dest)
-    print link.title #,' ', doc.get_page(s.page_num).get_label()
+    print(link.title) #,' ', doc.get_page(s.page_num).get_label()
     manifestFd.write(link.title + '\n')
     walk_index(manifestFd,iterp, doc)
     manifestFd.close()
