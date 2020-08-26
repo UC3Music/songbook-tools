@@ -142,8 +142,22 @@ if __name__ == '__main__':
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
-    pdftex_process = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+    ret = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+    if ret != 0:
+     if ret < 0:
+         print("pdflatex (1 of 2): Killed by signal", -ret)
+         sys.exit(-ret)
+     else:
+         print("pdflatex (1 of 2): Command failed with return code", ret)
+         sys.exit(ret)
+    ret = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+    if ret != 0:
+     if ret < 0:
+         print("pdflatex (2 of 2): Killed by signal", -ret)
+         sys.exit(-ret)
+     else:
+         print("pdflatex (2 of 2): Command failed with return code", ret)
+         sys.exit(ret)
 
     os.remove(os.path.join(outputFileDir, "aux-song-index-file.idx"))
 
