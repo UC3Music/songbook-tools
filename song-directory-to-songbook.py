@@ -72,10 +72,11 @@ if __name__ == '__main__':
     inputDirectory = query("Please specify the path of the song input directory", args.input, skipQueries)
     print("Will use song input directory: " + inputDirectory)
 
-    # Query the path of the song input directory
+    # Query the path of the song output file
     outputFile = query("Please specify the name of the output pdf file", args.output, skipQueries)
     print("Will use the output pdf file: " + outputFile)
-    outputFileName, outputFileExtension = os.path.splitext(outputFile)
+    outputFileDirAndName, outputFileExtension = os.path.splitext(outputFile)
+    outputFileDir, outputFileName = os.path.split(outputFileDirAndName)
 
     # Query the path of the template file
     templateFile = query("Please specify the path of the LaTeX template file [specifies language, format]", args.template, skipQueries)
@@ -134,21 +135,33 @@ if __name__ == '__main__':
     s = s.replace("TITLE", outputFileName)
     s = s.replace("genSongbook",rep)
 
-    outputFileTex = outputFileName + ".tex"
+    outputFileTex = outputFileDirAndName + ".tex"
     outFd = open(outputFileTex, 'w', encoding="utf8")
     outFd.write(s)
     outFd.close()
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
-    pdftex_process = subprocess.call(['pdflatex', outputFileTex])
-    os.remove("aux-song-index-file.idx")
-    os.remove("aux-song-index-file.ilg")
-    os.remove("aux-song-index-file.ind")
-    os.remove(outputFileName + ".aux")
-    os.remove(outputFileName + ".log")
-    os.remove(outputFileName + ".out")
-    os.remove(outputFileName + ".toc")
+    pdftex_process = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+    pdftex_process = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+
+    os.remove(os.path.join(outputFileDir, "aux-song-index-file.idx"))
+
+    if os.path.exists(os.path.join(outputFileDir, "aux-song-index-file.ilg")):
+        os.remove(os.path.join(outputFileDir, "aux-song-index-file.ilg"))
+    else:
+        print("No .ilg file, which is frequent on Windows.")
+
+    if os.path.exists(os.path.join(outputFileDir, "aux-song-index-file.ind")):
+        os.remove(os.path.join(outputFileDir, "aux-song-index-file.ind"))
+    else:
+        print("No .ind file, which is frequent on Windows.")
+
+    os.remove(outputFileDirAndName + ".aux")
+    os.remove(outputFileDirAndName + ".log")
+    os.remove(outputFileDirAndName + ".out")
+    os.remove(outputFileDirAndName + ".toc")
 
     os.remove(outputFileTex)  # may be interested in keeping
+
+    print('DONE! Generated', outputFileDirAndName+'.pdf')
