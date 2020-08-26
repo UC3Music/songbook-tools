@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, os
+import sys, os, shutil
 
 import mmap  # Thanks Steven @ http://stackoverflow.com/questions/4940032/search-for-string-in-txt-file-python
 
@@ -163,7 +163,7 @@ if __name__ == '__main__':
          print("pdflatex (2 of 2): Command failed with return code", ret)
          sys.exit(ret)
 
-    os.rename(outputFileName+".pdf", outputFileDirAndName+".pdf")
+    shutil.move(outputFileName+".pdf", outputFileDirAndName+".pdf")
 
     os.remove("aux-song-index-file.idx")
     os.remove("aux-song-index-file.ilg") # from makeindex
