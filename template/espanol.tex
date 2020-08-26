@@ -46,6 +46,9 @@
 \makeatother
 
 \begin{document}
+
+\frontmatter  % Turns off chapter numbering and uses roman numerals for page numbers.
+
 \Large
 
 \title{TITLE}
@@ -57,12 +60,16 @@
 \tableofcontents
 \newpage  % book format
 
+\mainmatter  % Turns on chapter numbering, resets page numbering and uses arabic numerals for page numbers.
+
 %-- To force blank page: 
 %\newpage
 %\thispagestyle{empty}
 %\mbox{}
 
 genSongbook
+
+\backmatter % Turns off chapter numbering and doesn't fiddle with page numbering.
 
 \printindex[aux-song-index-file]
 
