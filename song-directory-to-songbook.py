@@ -142,7 +142,10 @@ if __name__ == '__main__':
 
     #http://stackoverflow.com/questions/6818102/detect-and-handle-a-latex-warning-error-generated-via-an-os-system-call-in-pytho
     #pdftex_process = subprocess.Popen(['pdflatex', '-interaction=nonstopmode', '%s'%topic], shell=False, stdout=subprocess.PIPE)
-    ret = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+
+    #-- Seems to be only miktex: '-aux-directory='+outputFileDir
+    #-- Messes with makeindex: '-output-directory='+outputFileDir
+    ret = subprocess.call(['pdflatex', outputFileTex])
     if ret != 0:
      if ret < 0:
          print("pdflatex (1 of 2): Killed by signal", -ret)
@@ -150,7 +153,8 @@ if __name__ == '__main__':
      else:
          print("pdflatex (1 of 2): Command failed with return code", ret)
          sys.exit(ret)
-    ret = subprocess.call(['pdflatex', '-output-directory='+outputFileDir, outputFileTex]) # '-aux-directory='+outputFileDir
+
+    ret = subprocess.call(['pdflatex', outputFileTex])
     if ret != 0:
      if ret < 0:
          print("pdflatex (2 of 2): Killed by signal", -ret)
@@ -159,12 +163,16 @@ if __name__ == '__main__':
          print("pdflatex (2 of 2): Command failed with return code", ret)
          sys.exit(ret)
 
-    os.remove(os.path.join(outputFileDir, "aux-song-index-file.idx"))
+    os.rename(outputFileName+".pdf", outputFileDirAndName+".pdf")
 
-    os.remove(outputFileDirAndName + ".aux")
-    os.remove(outputFileDirAndName + ".log")
-    os.remove(outputFileDirAndName + ".out")
-    os.remove(outputFileDirAndName + ".toc")
+    os.remove("aux-song-index-file.idx")
+    os.remove("aux-song-index-file.ilg") # from makeindex
+    os.remove("aux-song-index-file.ind") # from makeindex
+
+    os.remove(outputFileName + ".aux")
+    os.remove(outputFileName + ".log")
+    os.remove(outputFileName + ".out")
+    os.remove(outputFileName + ".toc")
 
     os.remove(outputFileTex)  # may be interested in keeping
 
