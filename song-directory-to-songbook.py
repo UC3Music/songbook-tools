@@ -147,16 +147,6 @@ if __name__ == '__main__':
 
     os.remove(os.path.join(outputFileDir, "aux-song-index-file.idx"))
 
-    if os.path.exists(os.path.join(outputFileDir, "aux-song-index-file.ilg")):
-        os.remove(os.path.join(outputFileDir, "aux-song-index-file.ilg"))
-    else:
-        print("No .ilg file, which is frequent on Windows.")
-
-    if os.path.exists(os.path.join(outputFileDir, "aux-song-index-file.ind")):
-        os.remove(os.path.join(outputFileDir, "aux-song-index-file.ind"))
-    else:
-        print("No .ind file, which is frequent on Windows.")
-
     os.remove(outputFileDirAndName + ".aux")
     os.remove(outputFileDirAndName + ".log")
     os.remove(outputFileDirAndName + ".out")
