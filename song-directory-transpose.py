@@ -65,7 +65,11 @@ def processBlockWithParenthesis(matchobj):
     # Print for debugging purposes: what is being treated
     print("--- " + matchobj.group(0))
     # Treat exceptions that are simply skipped and return
-    if matchobj.group(0).find("bpm)") != -1:
+    if matchobj.group(0).find("(bpm") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(tempo") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(key") != -1:
         return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
