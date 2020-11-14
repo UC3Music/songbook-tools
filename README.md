@@ -35,3 +35,12 @@ pip install -r requirements.txt --user
                          if automatic capo/drop correction should be applied (default: "yes")
    --yes [YES]           accept all, skip all queries (default: "NULL")
    ```
+
+## Similar and Related
+
+- <https://www.pmwiki.org/wiki/Cookbook/ChordPro-Markup>
+- <https://chordle.uservoice.com/forums/255181-general/suggestions/37263652-markup-language-for-chord-above-text-format>
+- <https://stackoverflow.com/questions/12253228/markdown-for-guitar-chords-and-lyrics>
+- <https://github.com/wojtex/cantionale> + <https://github.com/wojtex/songbook-generator>
+- <http://www.softpedia.com/get/Multimedia/Audio/Other-AUDIO-Tools/Songbook-Generator.shtml#sgal_0>
+- Also see <https://github.com/adius/awesome-sheet-music>
