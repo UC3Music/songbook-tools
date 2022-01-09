@@ -71,6 +71,10 @@ def processBlockWithParenthesis(matchobj):
         return matchobj.group(0)
     if matchobj.group(0).find("(key") != -1:
         return matchobj.group(0)
+    if matchobj.group(0).find("(highest") != -1:
+        return matchobj.group(0)
+    if matchobj.group(0).find("(falsetto") != -1:
+        return matchobj.group(0)
     if matchobj.group(0).find("(all") != -1:
         return matchobj.group(0)
     # Treat exception that affects songHalfTones and returns: capo
