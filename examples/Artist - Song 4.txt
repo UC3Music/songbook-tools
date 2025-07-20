@@ -1,4 +1,6 @@
-(chords for capo on 2)
+---
+capo: 2
+---
 
 (C  Dm  Em  F)  (G  Am)
 Lorem ipsum dolor sit amet,
