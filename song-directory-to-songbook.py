@@ -122,10 +122,10 @@ if __name__ == '__main__':
             if len(data) == 3:
                 dict = {i.split(":")[0]: i.split(":")[1] for i in [s for s in data[1].splitlines() if s]}
                 if 'capo' in dict.keys():
-                    rep += "(chords for capo on " + str(int(dict["capo"])) + ")" + os.linesep
+                    rep += "(chords for capo on " + str(int(dict["capo"])) + ")" + os.linesep + os.linesep
                 if 'drop' in dict.keys():
-                    rep += "(chords for drop " + str(int(dict["drop"])) + " semitones)" + os.linesep
-            rep += data[-1].rstrip() # actual song
+                    rep += "(chords for drop " + str(int(dict["drop"])) + " semitones)" + os.linesep + os.linesep
+            rep += data[-1].rstrip().lstrip() # actual song
             rep += os.linesep + "\\end{alltt}" + os.linesep
     #sys.stdout.write(rep)  #-- Screen output for debugging.
 
