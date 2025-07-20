@@ -7,6 +7,7 @@ import mmap  # Thanks Steven @ http://stackoverflow.com/questions/4940032/search
 import subprocess
 
 import readline
+import re
 
 readline.set_completer_delims(' \t\n;')
 readline.parse_and_bind("tab: complete")
@@ -114,8 +115,14 @@ if __name__ == '__main__':
             rep += "\\begin{alltt}\n"
             print("os.path.join(dirname, filename)",os.path.join(dirname, filename))
             song = open(os.path.join(dirname, filename), encoding="utf8")
-            rep += song.read()
+
+            rx = re.compile(r"^-{3,}\s*$", re.MULTILINE)
+            data = rx.split(song.read())
             song.close()
+            #if len(data) == 3:
+            #    rep += "info to parse: " + data[1]
+            rep += data[-1] # actual song
+            
             rep += "\\end{alltt}\n"
             rep += "\n"
     #sys.stdout.write(rep)  #-- Screen output for debugging.
