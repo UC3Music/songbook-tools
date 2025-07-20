@@ -1,4 +1,7 @@
-(chords for drop 2 semitone)
+---
+drop: 1
+whatever: 14
+---
 
 (C  Dm  Em  F)  (G  Am)
 Lorem ipsum dolor sit amet,
