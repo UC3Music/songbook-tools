@@ -107,24 +107,26 @@ if __name__ == '__main__':
                 if manifestMmap.find(name) != -1:
                     print("Skipping:", name)
                     continue
-            rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-            rep += "\\chapter{" + name + "}\n"  #-- Note that we use \\ instead of \.
+            rep += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + os.linesep
+            rep += "\\chapter{" + name + "}" + os.linesep #-- Note that we use \\ instead of \.
             songName = name.split(" - ")[-1]
             #-- We cannot use [] yet (they will be replaced because choir), so use {{}}.
-            rep += "\\index{{aux-song-index-file}}{" + songName + "}\n"
-            rep += "\\begin{alltt}\n"
+            rep += "\\index{{aux-song-index-file}}{" + songName + "}" + os.linesep
+            rep += "\\begin{alltt}" + os.linesep
             print("os.path.join(dirname, filename)",os.path.join(dirname, filename))
             song = open(os.path.join(dirname, filename), encoding="utf8")
 
             rx = re.compile(r"^-{3,}\s*$", re.MULTILINE)
             data = rx.split(song.read())
             song.close()
-            #if len(data) == 3:
-            #    rep += "info to parse: " + data[1]
-            rep += data[-1] # actual song
-            
-            rep += "\\end{alltt}\n"
-            rep += "\n"
+            if len(data) == 3:
+                dict = {i.split(":")[0]: i.split(":")[1] for i in [s for s in data[1].splitlines() if s]}
+                if 'capo' in dict.keys():
+                    rep += "(chords for capo on " + str(int(dict["capo"])) + ")" + os.linesep
+                if 'drop' in dict.keys():
+                    rep += "(chords for drop " + str(int(dict["drop"])) + " semitones)" + os.linesep
+            rep += data[-1].rstrip() # actual song
+            rep += os.linesep + "\\end{alltt}" + os.linesep
     #sys.stdout.write(rep)  #-- Screen output for debugging.
 
     #-- replace chords delimiter ()

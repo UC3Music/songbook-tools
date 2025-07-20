@@ -1,5 +1,5 @@
 ---
-drop: 2
+drop: 1
 whatever: 14
 ---
 
